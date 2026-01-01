@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>انستقرام MT الذهبي - الإصدار الملكي</title>
+  
+  <link rel="icon" href="https://instagold.download/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --insta-purple: #833AB4;
+      --insta-pink: #E1306C;
+      --insta-gold: #FDB827;
+      --insta-orange: #F58529;
+      --dark-bg: #0f0c29; /* خلفية ليلية فاخرة */
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--dark-bg);
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    [data-lang] { display: none; }
+
+    /* شاشة التحميل الإبداعية */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #0f0c29;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      transition: 1s ease-out;
+    }
+
+    .loader-diamond {
+      width: 50px;
+      height: 50px;
+      background: var(--insta-gold);
+      transform: rotate(45deg);
+      animation: diamond-pulse 1.2s infinite ease-in-out;
+      box-shadow: 0 0 30px var(--insta-gold);
+    }
+
+    @keyframes diamond-pulse {
+      0%, 100% { transform: rotate(45deg) scale(0.8); opacity: 0.5; }
+      50% { transform: rotate(45deg) scale(1.2); opacity: 1; }
+    }
+
+    /* التنقل الزجاجي */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 12, 41, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 15px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--insta-gold), var(--insta-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
+    .lang-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: var(--transition);
+    }
+
+    .lang-btn:hover { background: var(--insta-gold); color: #000; }
+
+    /* الهيدر الفاخر */
+    .header {
+      padding: 100px 20px;
+      text-align: center;
+      background: radial-gradient(circle at top, rgba(131, 58, 180, 0.2), transparent 70%);
+    }
+
+    .header h1 {
+      font-size: clamp(32px, 8vw, 60px);
+      font-weight: 900;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .header span { color: var(--insta-gold); }
+
+    /* الحاوية الرئيسية */
+    .main-container {
+      max-width: 1200px;
+      margin: -50px auto 100px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    @media (min-width: 992px) { .main-container { grid-template-columns: 450px 1fr; } }
+
+    /* بطاقة التطبيق المطورة */
+    .app-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(30px);
+      border-radius: 40px;
+      padding: 50px 30px;
+      border: 1px solid var(--glass-border);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: conic-gradient(transparent, var(--insta-gold), transparent 30%);
+      animation: rotate-border 6s linear infinite;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    @keyframes rotate-border { to { transform: rotate(360deg); } }
+
+    .app-logo {
+      width: 160px;
+      height: 160px;
+      border-radius: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(253, 184, 39, 0.2);
+    }
+
+    /* أيقونات الحجم والإصدار */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .spec-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px 5px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+
+    .spec-item:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.1); }
+
+    .spec-item i { color: var(--insta-gold); font-size: 20px; margin-bottom: 8px; display: block; }
+    .spec-item span { display: block; font-weight: 900; font-size: 16px; }
+    .spec-item small { color: #aaa; font-size: 11px; text-transform: uppercase; }
+
+    /* أزرار التحميل */
+    .action-area { margin-top: 40px; }
+
+    .btn-gold {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: linear-gradient(45deg, var(--insta-orange), var(--insta-gold));
+      color: #000;
+      padding: 22px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 10px 30px rgba(253, 184, 39, 0.3);
+      transition: var(--transition);
+    }
+
+    .btn-gold:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(253, 184, 39, 0.5); }
+
+    .countdown-luxury {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--insta-gold);
+      padding: 20px;
+      border-radius: 25px;
+      background: rgba(253, 184, 39, 0.1);
+      border: 2px dashed var(--insta-gold);
+    }
+
+    /* قسم الميزات */
+    .features-section {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 40px;
+      padding: 50px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .feat-card {
+      background: var(--glass-bg);
+      padding: 30px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      border: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+
+    .feat-card:hover { background: rgba(255,255,255,0.08); transform: translateX(-10px); }
+
+    .feat-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--insta-purple), var(--insta-pink));
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    /* الفوتر */
+    .footer {
+      padding: 80px 5%;
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto 50px;
+    }
+
+    .footer-link { color: #888; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 12px; }
+    .footer-link:hover { color: var(--insta-gold); }
+
+    /* الحماية */
+    .badge-secure {
+        background: #27ae6033;
+        color: #2ecc71;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border: 1px solid #2ecc7144;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="loader-diamond"></div>
+  </div>
+
+  <nav class="navbar">
+    <a href="#" class="brand">MTINSTA GOLD</a>
+    <button class="lang-btn" onclick="toggleLanguage()">
+      <i class="fas fa-language"></i> <span id="langLabel">English</span>
+    </button>
+  </nav>
+
+  <header class="header">
+    <div class="badge-secure">
+        <i class="fas fa-shield-check"></i> <span data-lang="ar">تم فحصه بواسطة Play Protect</span><span data-lang="en">Verified by Play Protect</span>
+    </div>
+    <h1 data-lang="ar">الجيل القادم من <span>انستقرام MT</span></h1>
+    <h1 data-lang="en">The Next Gen of <span>MT Instagram</span></h1>
+    <p style="color: #aaa; font-size: 20px;" data-lang="ar">فخامة التصميم الذهبي تجتمع مع قوة الأداء.</p>
+    <p style="color: #aaa; font-size: 20px;" data-lang="en">Luxury golden design meets powerful performance.</p>
+  </header>
+
+  <div class="main-container">
+    
+    <aside class="app-card">
+      <img src="instaplus.png" alt="MT Gold" class="app-logo">
+      <h2 style="font-size: 28px; margin-bottom: 5px;">InstaGold MT</h2>
+      <p style="color: var(--insta-gold); font-weight: 700;">Premium Edition</p>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <i class="fas fa-file-archive"></i>
+          <span>141MB</span>
+          <small data-lang="ar">الحجم</small><small data-lang="en">Size</small>
+        </div>
+        <div class="spec-item">
+          <i class="fas fa-code-branch"></i>
+          <span>v10.60</span>
+          <small data-lang="ar">الإصدار</small><small data-lang="en">Version</small>
+        </div>
+        <div class="spec-item">
+          <i class="fas fa-shield-alt"></i>
+          <span style="color: #2ecc71;">Safe</span>
+          <small data-lang="ar">أمن 100%</small><small data-lang="en">100% Secure</small>
+        </div>
+      </div>
+
+      <div class="action-area">
+        <a href="javascript:void(0)" class="btn-gold" id="dlBtn" onclick="handleDownload()">
+          <i class="fas fa-crown"></i>
+          <span data-lang="ar">تحميل برابط مباشر</span>
+          <span data-lang="en">Direct Download</span>
+        </a>
+
+        <div id="waitBox" class="countdown-luxury" style="display: none;"></div>
+
+        <div id="finishBox" style="display: none;">
+          <a href="https://dlll.apkm.app/instagold/10.50/InstaGold_Plus_v10.50.apk" class="btn-gold" style="background: #2ecc71; color: #fff;">
+            <i class="fas fa-download"></i> <span data-lang="ar">بدء التثبيت الآن</span><span data-lang="en">Start Install</span>
+          </a>
+        </div>
+      </div>
+
+      <p style="margin-top: 25px; font-size: 13px; color: #666;" data-lang="ar">متوافق مع أندرويد 9.0 فما فوق</p>
+      <p style="margin-top: 25px; font-size: 13px; color: #666;" data-lang="en">Compatible with Android 9.0+</p>
+    </aside>
+
+    <main class="features-section">
+      <h2 style="margin-bottom: 40px; font-size: 32px;" data-lang="ar">الإضافات <span style="color: var(--insta-pink);">الأسطورية</span></h2>
+      <h2 style="margin-bottom: 40px; font-size: 32px;" data-lang="en">Legendary <span style="color: var(--insta-pink);">Features</span></h2>
+
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-film"></i></div>
+        <div>
+          <h3 data-lang="ar">تنزيل بجودة 4K</h3>
+          <h3 data-lang="en">4K Downloads</h3>
+          <p style="color: #888;" data-lang="ar">حفظ جميع وسائط انستقرام بأعلى دقة ممكنة بضغطة زر واحدة.</p>
+          <p style="color: #888;" data-lang="en">Save all Instagram media in the highest resolution possible.</p>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-eye-slash"></i></div>
+        <div>
+          <h3 data-lang="ar">الخصوصية الفائقة</h3>
+          <h3 data-lang="en">Ultimate Privacy</h3>
+          <p style="color: #888;" data-lang="ar">وضع التخفي الكامل: مشاهدة القصص والرسائل دون ترك أي أثر.</p>
+          <p style="color: #888;" data-lang="en">Total Stealth: View stories and messages without a trace.</p>
+        </div>
+      </div>
+
+      <div class="feat-card">
+        <div class="feat-icon"><i class="fas fa-magic"></i></div>
+        <div>
+          <h3 data-lang="ar">ثيمات بلا حدود</h3>
+          <h3 data-lang="en">Unlimited Themes</h3>
+          <p style="color: #888;" data-lang="ar">غير شكل التطبيق بالكامل ليناسب ذوقك مع مئات الثيمات الذهبية.</p>
+          <p style="color: #888;" data-lang="en">Change the entire look of the app with hundreds of golden themes.</p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <h3 style="color: var(--insta-gold); margin-bottom: 20px;">MT Gold</h3>
+        <p style="color: #666; font-size: 14px;">نحن نقدم لك الأمان مع الميزات التي طالما حلمت بها.</p>
+      </div>
+      <div>
+        <h4 style="margin-bottom: 20px;">الروابط</h4>
+        <a href="#" class="footer-link">سياسة الخصوصية</a>
+        <a href="#" class="footer-link">قناة التليجرام</a>
+      </div>
+    </div>
+    <div style="opacity: 0.5; font-size: 12px;">Copyright &copy; 2026 MTInsta Gold Team.</div>
+  </footer>
+
+  <script>
+    let activeLang = 'ar';
+
+    window.onload = () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 1000);
+      }, 1500);
+      updateView();
+    };
+
+    function toggleLanguage() {
+      activeLang = activeLang === 'ar' ? 'en' : 'ar';
+      updateView();
+    }
+
+    function updateView() {
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === activeLang ? 'block' : 'none';
+      });
+      document.body.dir = activeLang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('langLabel').innerText = activeLang === 'ar' ? 'English' : 'عربي';
+    }
+
+    function handleDownload() {
+      const btn = document.getElementById('dlBtn');
+      const wait = document.getElementById('waitBox');
+      const finish = document.getElementById('finishBox');
+      
+      btn.style.display = 'none';
+      wait.style.display = 'block';
+      
+      let timer = 5;
+      const interval = setInterval(() => {
+        wait.innerHTML = activeLang === 'ar' 
+          ? `<i class="fas fa-sync fa-spin"></i> جاري التحقق من الملف... ${timer}` 
+          : `<i class="fas fa-sync fa-spin"></i> Verifying file... ${timer}`;
+        
+        if (timer <= 0) {
+          clearInterval(interval);
+          wait.style.display = 'none';
+          finish.style.display = 'block';
+        }
+        timer--;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
