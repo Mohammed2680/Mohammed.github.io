@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>شبكة طواف نت</title>
+
+<style>
+*{
+    box-sizing: border-box;
+    font-family: 'Cairo', Tahoma, sans-serif;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background: linear-gradient(135deg,#6a1b9a,#3b0a57);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+}
+
+.container{
+    width:100%;
+    max-width:420px;
+    padding:20px;
+}
+
+.card{
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.title{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    font-size:14px;
+    opacity:0.9;
+    margin-bottom:25px;
+}
+
+.select-box,
+.input-box{
+    background: rgba(255,255,255,0.15);
+    border-radius:12px;
+    padding:12px 15px;
+    margin-bottom:15px;
+}
+
+select,
+input{
+    width:100%;
+    background: transparent;
+    border:none;
+    outline:none;
+    color:#fff;
+    font-size:15px;
+}
+
+select option{
+    color:#000;
+}
+
+.login-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    font-size:18px;
+    font-weight:bold;
+    background: linear-gradient(135deg,#ffffff,#e0c3ff);
+    color:#4a0072;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+    margin-top:10px;
+}
+
+.notice{
+    background: rgba(0,0,0,0.35);
+    border-radius:14px;
+    padding:15px;
+    margin-top:20px;
+    font-size:13px;
+}
+
+.toggle{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+}
+
+.toggle input{
+    width:45px;
+    height:22px;
+    appearance:none;
+    background:#888;
+    border-radius:20px;
+    position:relative;
+    cursor:pointer;
+}
+
+.toggle input:checked{
+    background:#4caf50;
+}
+
+.toggle input::before{
+    content:'';
+    position:absolute;
+    width:18px;
+    height:18px;
+    background:#fff;
+    border-radius:50%;
+    top:2px;
+    left:2px;
+    transition:0.3s;
+}
+
+.toggle input:checked::before{
+    left:25px;
+}
+
+.bottom-icons{
+    display:flex;
+    justify-content:space-around;
+    margin:25px 0 15px;
+    font-size:13px;
+    opacity:0.9;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+}
+
+.action-btn{
+    flex:1;
+    padding:10px;
+    text-align:center;
+    border-radius:12px;
+    background: rgba(255,255,255,0.18);
+    font-size:14px;
+}
+
+.footer{
+    text-align:center;
+    margin-top:15px;
+    font-size:12px;
+    opacity:0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <div class="title">⚡ شبكة طواف نت اللاسلكية ⚡</div>
+        <div class="subtitle">
+            يمكنك طلب الخدمة والدفع عبر المحافظ الإلكترونية (ون كاش – حبيب)
+        </div>
+
+        <div class="select-box">
+            <select>
+                <option>1M سرعة عادية</option>
+                <option>2M سرعة متوسطة</option>
+                <option>4M سرعة عالية</option>
+                <option>VIP سرعة مفتوحة</option>
+            </select>
+        </div>
+
+        <div class="input-box">
+            <input type="text" placeholder="رقم الكرت / الكود">
+        </div>
+
+        <div class="select-box">
+            <select>
+                <option>الكروت المحفوظة</option>
+            </select>
+        </div>
+
+        <button class="login-btn">تسجيل الدخول</button>
+
+        <div class="notice">
+            ⚠️ <strong>ملاحظة هامة:</strong><br>
+            سيتم إيقاف تحديث التطبيقات وبرامج المزامنة تلقائيًا
+            لضمان عدم انتهاء رصيدك بسرعة.
+            <div class="toggle">
+                <span>إيقاف التحديثات</span>
+                <input type="checkbox" checked>
+            </div>
+        </div>
+
+        <div class="bottom-icons">
+            <div>الأسعار</div>
+            <div>نقاط البيع</div>
+            <div>العروض</div>
+        </div>
+
+        <div class="actions">
+            <div class="action-btn">📞 اتصل بنا</div>
+            <div class="action-btn">💬 راسلنا</div>
+        </div>
+
+        <div class="footer">
+            تطوير وبرمجة شبكة طواف نت
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
