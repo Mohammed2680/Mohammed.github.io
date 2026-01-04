@@ -2,563 +2,416 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>يوتيوب MT الذهبي - MTYouTube</title>
-  
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-
+  <title>يوتيوب MT الذهبي - بريميوم</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <meta name="description" content="MTYouTube_v18 is a premium YouTube app with ad-free experience."/>
   
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W3QKTBZDQ0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-W3QKTBZDQ0');
-  </script>
-  
   <style>
-    /* --- نفس تصميمك الأول بنسبة 100% --- */
     :root {
+      /* الألوان الأصلية */
       --gold-primary: #D4AF37;
-      --gold-secondary: #B8860B;
       --gold-light: #FFD700;
       --gold-dark: #8B7500;
       --youtube-red: #FF0000;
-      --dark-bg: #121212;
-      --light-bg: #1a1a1a;
-      --text-light: #f8f8f8;
-      --text-dark: #333333;
+      --dark-deep: #050505;
+      --text-light: #ffffff;
       --text-gray: #cccccc;
-      --shadow: 0 4px 12px rgba(0,0,0,0.2);
-      --transition: all 0.3s ease;
+      
+      /* متغيرات التصميم الجديد */
+      --glass-bg: rgba(20, 20, 20, 0.75);
+      --glass-border: 1px solid rgba(212, 175, 55, 0.25);
+      --neon-gold-glow: 0 0 20px rgba(255, 215, 0, 0.4);
+      --card-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
     
     body {
       font-family: 'Tajawal', sans-serif;
-      font-weight: 500;
-      line-height: 1.7;
+      background-color: var(--dark-deep);
       color: var(--text-light);
-      background: linear-gradient(135deg, #0a0a0a 0%, #000 100%);
       min-height: 100vh;
-      position: relative;
       overflow-x: hidden;
+      position: relative;
     }
-    
-    /* منطق إخفاء اللغات (تم تحسينه ليعمل بشكل صحيح) */
-    [data-lang="en"] { display: none; } /* إخفاء الإنجليزية افتراضياً */
+
+    /* الخلفية المتطورة */
+    .advanced-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0a0a0a 0%, #000 100%);
+    }
+    /* شبكة تقنية خفيفة */
+    .bg-grid {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+        background-image: linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+        opacity: 0.5;
+    }
+
+    /* كرات عائمة (نفس الفكرة الأصلية لكن أنعم) */
+    .floating-orbs { position: fixed; width: 100%; height: 100%; z-index: -1; overflow:hidden; pointer-events: none;}
+    .orb { position: absolute; border-radius: 50%; filter: blur(30px); opacity: 0.3; animation: floatOrb 20s infinite ease-in-out alternate; }
+    .orb-1 { top: 10%; left: 10%; width: 200px; height: 200px; background: var(--gold-primary); animation-duration: 25s; }
+    .orb-2 { bottom: 20%; right: 10%; width: 250px; height: 250px; background: var(--youtube-red); animation-duration: 30s; animation-delay: -5s; }
     
     /* شاشة التحميل */
     #loader {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--dark-bg);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      background: var(--dark-deep); z-index: 9999;
+      display: flex; justify-content: center; align-items: center;
+      transition: opacity 0.6s ease;
     }
-    
-    .loader-content {
-      text-align: center; padding: 30px;
-      border-radius: 16px; background: rgba(30, 30, 30, 0.95);
-      box-shadow: var(--shadow); border: 2px solid var(--gold-primary);
+    .loader-spinner {
+        width: 60px; height: 60px; border: 5px solid rgba(212, 175, 55, 0.2);
+        border-top-color: var(--gold-light); border-radius: 50%;
+        animation: spin 1s linear infinite;
     }
-    
-    .loader-logo {
-      width: 70px; height: 70px; margin-bottom: 15px;
-      animation: pulse 1.5s infinite;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 40px; color: var(--youtube-red);
-    }
-    
-    .loader-text { font-size: 18px; font-weight: 600; color: var(--gold-light); margin-bottom: 15px; }
-    
-    .loader-progress {
-      width: 100%; height: 6px; background: #333;
-      border-radius: 4px; overflow: hidden; position: relative;
-    }
-    
-    .loader-progress-bar {
-      position: absolute; left: 0; top: 0; height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--youtube-red), var(--gold-primary));
-      border-radius: 4px; transition: width 0.5s ease;
-    }
-    
-    /* الشريط العلوي */
-    .top-bar {
+
+    /* الشريط العلوي الزجاجي */
+    .glass-nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 20px; background: linear-gradient(135deg, var(--dark-bg) 0%, #000 100%);
-      box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100;
-      border-bottom: 2px solid var(--gold-primary);
+      padding: 15px 5%; position: sticky; top: 0; z-index: 100;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: var(--glass-border);
     }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; font-weight: 800; color: var(--text-light); text-decoration: none; }
+    .nav-logo i { color: var(--gold-light); filter: drop-shadow(0 0 5px var(--gold-primary)); }
     
-    .logo { display: flex; align-items: center; gap: 8px; color: var(--gold-light); font-weight: 700; font-size: 18px; text-decoration: none; }
-    .logo-icon { font-size: 20px; color: var(--gold-light); }
-    
-    .lang-switcher { display: flex; gap: 8px; }
     .lang-btn {
-      background: rgba(255, 255, 255, 0.1); border: 1px solid #444;
-      color: var(--gold-light); padding: 5px 12px; border-radius: 30px;
-      font-weight: 600; font-size: 14px; cursor: pointer; transition: var(--transition);
+        background: rgba(0,0,0,0.3); border: 1px solid var(--gold-primary); color: var(--gold-light);
+        padding: 6px 15px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: var(--transition-smooth);
     }
-    .lang-btn:hover { background: rgba(255, 255, 255, 0.2); }
-    
-    /* الهيدر */
-    .header {
-      background: linear-gradient(135deg, var(--dark-bg) 0%, #000 100%);
-      text-align: center; padding: 30px 15px; position: relative;
-      overflow: hidden; border-bottom: 2px solid var(--gold-primary);
+    .lang-btn:hover { background: var(--gold-primary); color: #000; box-shadow: var(--neon-gold-glow); }
+
+    /* الهيدر الرئيسي */
+    .hero-header {
+        text-align: center; padding: 60px 20px; position: relative;
     }
-    
-    .header::before {
-      content: ""; position: absolute; top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
-      transform: rotate(30deg);
+    .hero-title {
+        font-size: 3rem; font-weight: 900; margin-bottom: 10px;
+        background: linear-gradient(to right, var(--gold-light), #fff, var(--gold-primary));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
     }
-    
-    .header-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
-    
-    h1 {
-      font-size: 26px; font-weight: 800; margin-bottom: 8px;
-      color: var(--gold-light); text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    .hero-badge {
+        display: inline-block; background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary));
+        color: #fff; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem;
+        box-shadow: var(--neon-gold-glow); margin-top: 15px;
     }
-    
-    .subtitle { font-size: 16px; color: rgba(255, 255, 255, 0.8); max-width: 600px; margin: 0 auto 15px; }
-    
-    .version-badge {
-      display: inline-block; background: rgba(255, 255, 255, 0.1);
-      color: var(--gold-light); padding: 5px 12px; border-radius: 20px;
-      font-weight: 600; font-size: 13px; margin-top: 8px; border: 1px solid var(--gold-primary);
+
+    /* حاوية المحتوى */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; z-index: 10; position: relative; }
+    .grid-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+    @media (min-width: 992px) { .grid-layout { grid-template-columns: 400px 1fr; align-items: start; } }
+
+    /* البطاقات الزجاجية (Glassmorphism Cards) */
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(25px) saturate(150%); -webkit-backdrop-filter: blur(25px) saturate(150%);
+        border-radius: 25px; border: var(--glass-border);
+        padding: 30px; text-align: center;
+        box-shadow: var(--card-shadow), inset 0 0 20px rgba(255,255,255,0.05);
+        position: relative; overflow: hidden;
     }
-    
-    /* المحتوى الرئيسي */
-    .main-content { max-width: 1200px; margin: 30px auto; padding: 0 15px; position: relative; z-index: 5; }
-    .content-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
-    @media (min-width: 768px) { .content-grid { grid-template-columns: 1fr 1fr; } }
-    
-    /* بطاقة التطبيق */
-    .app-card {
-      background: rgba(30, 30, 30, 0.8); border-radius: 18px; overflow: hidden;
-      box-shadow: var(--shadow); text-align: center; padding: 25px;
-      display: flex; flex-direction: column; align-items: center;
-      border: 2px solid var(--gold-primary); position: relative;
+    /* لمعة خفيفة على البطاقات */
+    .glass-card::before {
+        content:''; position: absolute; top:0; left:-50%; width:100%; height:100%;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+        transform: skewX(-25deg); pointer-events: none; transition: 0.5s;
     }
-    
-    .featured-badge {
-      position: absolute; top: 15px; right: 15px;
-      background: linear-gradient(135deg, var(--youtube-red), #B22222);
-      color: white; padding: 5px 15px; border-radius: 20px;
-      font-weight: 700; font-size: 12px; transform: rotate(5deg); z-index: 10;
+    .glass-card:hover::before { left: 100%; }
+
+    /* شعار التطبيق المطور */
+    .premium-emblem-container { position: relative; width: 160px; height: 160px; margin: 0 auto 25px; }
+    .premium-emblem-glow {
+        position: absolute; inset: 0; border-radius: 35px;
+        background: radial-gradient(circle, var(--gold-light), var(--youtube-red));
+        filter: blur(35px); opacity: 0.5; animation: pulseGlow 3s infinite alternate;
     }
-    
-    .app-logo-container { position: relative; margin-bottom: 20px; }
-    .app-logo {
-      width: 130px; height: 130px; border-radius: 25px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); border: 4px solid var(--gold-primary);
-      position: relative; z-index: 2; display: flex; align-items: center; justify-content: center;
-      background: #121212; font-size: 60px; color: var(--gold-light);
+    .premium-emblem {
+        position: relative; width: 100%; height: 100%;
+        background: linear-gradient(135deg, #1a1a1a, #000);
+        border-radius: 35px; display: flex; align-items: center; justify-content: center;
+        border: 3px solid var(--gold-primary);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,255,255,0.2);
     }
-    
-    .app-logo-bg {
-      position: absolute; top: -12px; left: -12px; width: 154px; height: 154px;
-      background: radial-gradient(circle, var(--gold-light), var(--gold-primary));
-      border-radius: 35px; z-index: 1; opacity: 0.7; filter: blur(12px);
+    .premium-emblem i {
+        font-size: 70px;
+        background: linear-gradient(to bottom, #fff, var(--gold-light));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 5px 10px rgba(212, 175, 55, 0.5));
     }
-    
-    .app-title { font-size: 22px; font-weight: 800; color: var(--gold-light); margin-bottom: 8px; }
-    .app-description { color: var(--text-gray); margin-bottom: 25px; line-height: 1.7; font-size: 15px; }
-    
-    .app-meta { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-    .meta-item {
-      display: flex; flex-direction: column; align-items: center;
-      min-width: 80px; padding: 10px; border-radius: 10px; background: rgba(212, 175, 55, 0.1);
+
+    /* معلومات التطبيق */
+    .meta-grid { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
+    .meta-box {
+        background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 15px; min-width: 90px;
+        border: 1px solid rgba(255,255,255,0.05); transition: var(--transition-smooth);
     }
-    .meta-icon { font-size: 18px; color: var(--gold-light); margin-bottom: 5px; }
-    .meta-value { font-weight: 700; font-size: 15px; color: var(--text-light); }
-    .meta-label { font-size: 13px; color: var(--text-gray); }
-    
-    /* زر التحميل والعداد */
-    .download-box { width: 100%; max-width: 380px; margin: 15px auto; }
-    
-    .file-box {
-      display: flex; align-items: center; background: linear-gradient(135deg, var(--dark-bg), #000);
-      color: white; padding: 16px; border-radius: 14px; box-shadow: 0 5px 12px rgba(0, 0, 0, 0.6);
-      text-decoration: none; transition: var(--transition); position: relative;
-      overflow: hidden; border: 2px solid var(--gold-primary); cursor: pointer;
+    .meta-box:hover { border-color: var(--gold-primary); transform: translateY(-3px); }
+    .meta-box i { color: var(--gold-light); font-size: 1.2rem; margin-bottom: 5px; }
+    .meta-box strong { display: block; font-size: 1.1rem; color: #fff; }
+    .meta-box span { font-size: 0.8rem; color: var(--text-gray); }
+
+    /* منطقة التحميل */
+    .download-area { margin-top: 30px; }
+    .dl-trigger-box {
+        background: linear-gradient(135deg, #222, #111); border: 1px solid var(--gold-primary);
+        padding: 15px; border-radius: 18px; display: flex; align-items: center; cursor: pointer;
+        transition: var(--transition-smooth); position: relative; overflow: hidden;
     }
-    .file-box:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7); background: linear-gradient(135deg, #222, #111); }
-    
-    .file-box::after {
-      content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-      transform: rotate(30deg); pointer-events: none;
+    .dl-trigger-box:hover { transform: scale(1.02); box-shadow: var(--neon-gold-glow); }
+    .dl-icon-sm {
+        width: 50px; height: 50px; background: rgba(255,215,0,0.1); border-radius: 12px;
+        display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 24px; margin-left: 15px;
     }
-    
-    .file-box .app-icon {
-      width: 55px; height: 55px; margin-right: 12px; border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1); padding: 7px; display: flex; align-items: center; justify-content: center;
-      font-size: 28px; color: var(--gold-light);
+
+    .countdown-timer {
+        font-size: 1.2rem; font-weight: bold; color: var(--gold-light);
+        padding: 20px; background: rgba(0,0,0,0.3); border-radius: 18px; border: var(--glass-border);
+        display: none; /* مخفي */
     }
-    
-    .file-box .text { display: flex; flex-direction: column; text-align: right; flex: 1; }
-    .file-box .title { font-weight: 700; font-size: 18px; margin-bottom: 3px; color: var(--gold-light); }
-    .file-box .size { font-size: 13px; opacity: 0.8; color: #aaa; }
-    .file-box .download-icon { font-size: 22px; margin-right: 8px; color: var(--gold-light); }
-    
-    .countdown-box {
-      background: linear-gradient(135deg, var(--dark-bg), #000);
-      padding: 16px; margin-top: 18px; border-radius: 14px;
-      font-size: 17px; font-weight: 700; text-align: center;
-      color: var(--gold-light); box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-      display: none; border: 2px solid var(--gold-primary);
+
+    .final-dl-btn {
+        background: linear-gradient(45deg, var(--youtube-red), var(--gold-dark), var(--youtube-red));
+        background-size: 200% auto; color: white; text-decoration: none;
+        padding: 18px; border-radius: 50px; font-weight: 800; font-size: 1.2rem;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3); transition: var(--transition-smooth);
+        border: 2px solid var(--gold-primary); animation: shineGradient 3s linear infinite;
+        display: none; /* مخفي */
     }
+    .final-dl-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(255, 0, 0, 0.5), var(--neon-gold-glow); }
+
+    /* قسم المميزات */
+    .section-head { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 30px; color: var(--gold-light); text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+    .features-grid-modern { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
     
-    .download-btn {
-      display: none; /* مخفي في البداية */
-      align-items: center; justify-content: center; gap: 8px;
-      background: linear-gradient(135deg, var(--youtube-red), #B22222);
-      color: white; padding: 16px 30px; font-size: 18px; font-weight: 700;
-      text-align: center; border: none; border-radius: 50px; cursor: pointer;
-      text-decoration: none; box-shadow: 0 5px 12px rgba(0, 0, 0, 0.6);
-      transition: var(--transition); width: 100%; max-width: 380px; margin: 25px auto 0;
-      position: relative; overflow: hidden; border: 2px solid var(--gold-dark);
+    .feat-item-modern {
+        background: rgba(30,30,30,0.4); border: 1px solid rgba(255,255,255,0.05);
+        padding: 25px; border-radius: 20px; text-align: center; transition: var(--transition-smooth);
     }
-    .download-btn:hover {
-      transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
-      background: linear-gradient(135deg, #FF4500, var(--youtube-red));
+    .feat-item-modern:hover {
+        background: rgba(212, 175, 55, 0.1); border-color: var(--gold-primary);
+        transform: translateY(-7px); box-shadow: var(--neon-gold-glow);
     }
-    
-    /* ميزات التطبيق */
-    .features-card {
-      background: rgba(30, 30, 30, 0.8); border-radius: 18px; overflow: hidden;
-      box-shadow: var(--shadow); padding: 25px; border: 2px solid var(--gold-primary);
+    .feat-icon-circle {
+        width: 60px; height: 60px; margin: 0 auto 20px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold-primary), var(--youtube-red));
+        display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
-    
-    .section-title {
-      font-size: 22px; font-weight: 800; color: var(--gold-light); text-align: center;
-      margin-bottom: 25px; position: relative; padding-bottom: 12px;
-    }
-    .section-title::after {
-      content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 70px; height: 3px; background: linear-gradient(90deg, var(--youtube-red), var(--gold-primary));
-      border-radius: 2px;
-    }
-    
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-    
-    .feature-item {
-      display: flex; gap: 12px; padding: 18px; border-radius: 14px;
-      background: rgba(40, 40, 40, 0.8); transition: var(--transition); border: 1px solid #333;
-    }
-    .feature-item:hover {
-      transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      background: rgba(50, 50, 50, 0.8); border-color: var(--gold-primary);
-    }
-    
-    .feature-icon {
-      width: 45px; height: 45px; min-width: 45px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--youtube-red), #B22222);
-      display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;
-    }
-    .feature-content { text-align: right; }
-    .feature-title { font-weight: 700; font-size: 16px; margin-bottom: 6px; color: var(--gold-light); }
-    .feature-desc { font-size: 14px; color: var(--text-gray); line-height: 1.6; }
-    
+    .feat-item-modern h3 { color: var(--gold-light); margin-bottom: 10px; }
+    .feat-item-modern p { color: var(--text-gray); font-size: 0.95rem; }
+
     /* الفوتر */
-    .footer {
-      background: linear-gradient(135deg, #0a0a0a 0%, #000 100%);
-      color: #888; padding: 40px 15px 25px; margin-top: 40px; border-top: 2px solid var(--gold-primary);
+    .modern-footer {
+        margin-top: 60px; padding: 40px 20px; text-align: center;
+        background: rgba(10,10,10,0.8); backdrop-filter: blur(20px);
+        border-top: var(--glass-border);
     }
-    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 35px; }
-    @media (min-width: 768px) { .footer-content { grid-template-columns: 1fr 1fr; } }
-    
-    .footer-logo { display: flex; align-items: center; gap: 12px; color: var(--gold-light); font-size: 22px; font-weight: 700; margin-bottom: 15px; }
-    .footer-desc { font-size: 15px; line-height: 1.7; margin-bottom: 20px; color: var(--text-gray); }
-    .footer-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 18px; }
-    .footer-links a { text-decoration: none; color: #888; display: flex; align-items: center; gap: 7px; transition: var(--transition); font-size: 14px; }
-    .footer-links a:hover { color: var(--gold-light); }
-    .copyright { text-align: center; padding-top: 25px; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; color: #666; }
-    
-    /* أنيميشن */
-    @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
-    @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-    
-    /* خلفية متحركة */
-    .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1; overflow: hidden; }
-    .bg-circle { position: absolute; border-radius: 50%; background: radial-gradient(circle, var(--gold-light), transparent 70%); opacity: 0.3; animation: float 15s infinite linear; }
-    .bg-circle:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 5%; animation-duration: 20s; }
-    .bg-circle:nth-child(2) { width: 200px; height: 200px; top: 70%; left: 80%; animation-duration: 25s; animation-delay: -5s; }
-    .bg-circle:nth-child(3) { width: 150px; height: 150px; top: 40%; left: 40%; animation-duration: 15s; animation-delay: -2s; }
-    
-    /* تحسينات للجوال */
-    @media (max-width: 480px) {
-      .app-logo { width: 110px; height: 110px; font-size: 50px; }
-      .app-logo-bg { width: 134px; height: 134px; }
-      .download-btn { font-size: 16px; padding: 14px 25px; }
+
+    /* Animations */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes floatOrb { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, -50px); } }
+    @keyframes pulseGlow { 0% { opacity: 0.4; transform: scale(1); } 100% { opacity: 0.7; transform: scale(1.05); } }
+    @keyframes shineGradient { to { background-position: 200% center; } }
+
+    /* Responsive & Utils */
+    [data-lang="en"] { display: none; }
+    @media (max-width: 768px) {
+        .hero-title { font-size: 2.2rem; }
+        .glass-card { padding: 20px; }
+        .premium-emblem-container { width: 130px; height: 130px; }
+        .premium-emblem i { font-size: 55px; }
     }
   </style>
 </head>
 
 <body>
-
-  <div class="bg-animation">
-    <div class="bg-circle"></div>
-    <div class="bg-circle"></div>
-    <div class="bg-circle"></div>
+  <div class="advanced-bg"></div>
+  <div class="bg-grid"></div>
+  <div class="floating-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
   </div>
 
   <div id="loader">
-    <div class="loader-content">
-      <div class="loader-logo"><i class="fab fa-youtube"></i></div>
-      <div class="loader-text" data-lang="ar">جاري تحميل الصفحة...</div>
-      <div class="loader-text" data-lang="en">Loading page...</div>
-      <div class="loader-progress">
-        <div class="loader-progress-bar" id="loaderBar"></div>
-      </div>
-    </div>
+    <div class="loader-spinner"></div>
   </div>
 
-  <div class="top-bar">
-    <a href="#" class="logo">
-      <i class="fab fa-youtube logo-icon"></i>
-      <span data-lang="ar">يوتيوب MT الذهبي</span>
-      <span data-lang="en">MTYouTube</span>
+  <nav class="glass-nav">
+    <a href="#" class="nav-logo">
+      <i class="fab fa-youtube"></i>
+      <span data-lang="ar">MT الذهبي</span><span data-lang="en">MT Gold</span>
     </a>
-    
-    <div class="lang-switcher">
-      <button class="lang-btn" onclick="setLanguage('ar')">🇸🇦 عربي</button>
-      <button class="lang-btn" onclick="setLanguage('en')">🇺🇸 English</button>
+    <div>
+      <button class="lang-btn" onclick="setLanguage('ar')">عربي</button>
+      <button class="lang-btn" onclick="setLanguage('en')">EN</button>
     </div>
-  </div>
+  </nav>
 
-  <header class="header">
-    <div class="header-content">
-      <h1 data-lang="ar">يوتيوب MT الذهبي</h1>
-      <h1 data-lang="en">MTYouTube</h1>
-      
-      <p class="subtitle" data-lang="ar">نسخة فاخرة من يوتيوب مع ميزات متقدمة لمشاهدة وتحميل المحتوى</p>
-      <p class="subtitle" data-lang="en">Premium YouTube version with advanced viewing and downloading features</p>
-      
-      <div class="version-badge" data-lang="ar">الإصدار الذهبي v18</div>
-      <div class="version-badge" data-lang="en">Golden Version v18</div>
-    </div>
+  <header class="hero-header">
+    <h1 class="hero-title" data-lang="ar">يوتيوب MT الذهبي <br> التجربة الأرقى</h1>
+    <h1 class="hero-title" data-lang="en">MTYouTube Gold <br> The Premium Experience</h1>
+    <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">
+        <span data-lang="ar">استمتع بالمشاهدة بلا حدود. بدون إعلانات، تشغيل في الخلفية، وجودة فائقة.</span>
+        <span data-lang="en">Unlimited viewing. Ad-free, background play, and superior quality.</span>
+    </p>
+    <div class="hero-badge">V18.0 Premium Edition</div>
   </header>
 
-  <div class="main-content">
-    <div class="content-grid">
-      <div class="app-card">
-        <div class="featured-badge" data-lang="ar">مميز</div>
-        <div class="featured-badge" data-lang="en">Featured</div>
+  <div class="container">
+    <div class="grid-layout">
         
-        <div class="app-logo-container">
-          <div class="app-logo-bg"></div>
-          <div class="app-logo"><i class="fab fa-youtube"></i></div>
-        </div>
-        
-        <h2 class="app-title" data-lang="ar">يوتيوب MT الذهبي</h2>
-        <h2 class="app-title" data-lang="en">MTYouTube</h2>
-        
-        <p class="app-description" data-lang="ar">
-          النسخة الذهبية الفاخرة من يوتيوب، تقدم تجربة استثنائية مع ميزات متقدمة مثل مشاهدة بدون إعلانات، تشغيل في الخلفية، دعم 4K، وتنزيل الفيديوهات!
-        </p>
-        <p class="app-description" data-lang="en">
-          The premium golden version of YouTube, offering an exceptional experience with advanced features like ad-free viewing, background playback, 4K support, and video downloads!
-        </p>
-        
-        <div class="app-meta">
-          <div class="meta-item">
-            <div class="meta-icon"><i class="fas fa-download"></i></div>
-            <div class="meta-value">192MB</div>
-            <div class="meta-label" data-lang="ar">حجم الملف</div>
-            <div class="meta-label" data-lang="en">File Size</div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-icon"><i class="fas fa-sync-alt"></i></div>
-            <div class="meta-value">v18</div>
-            <div class="meta-label" data-lang="ar">الإصدار</div>
-            <div class="meta-label" data-lang="en">Version</div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-icon"><i class="fas fa-check-circle"></i></div>
-            <div class="meta-value" data-lang="ar">آمن</div>
-            <div class="meta-value" data-lang="en">Safe</div>
-            <div class="meta-label" data-lang="ar">بدون فيروسات</div>
-            <div class="meta-label" data-lang="en">Virus Free</div>
-          </div>
-        </div>
-        
-        <div class="download-box">
-          <div id="fileInfoBox" class="file-box" onclick="startCountdown()">
-            <div class="app-icon"><i class="fab fa-youtube"></i></div>
-            <div class="text">
-              <div class="title">MTYouTube_v18</div>
-              <div class="size" data-lang="ar">اضغط للتحميل</div>
-              <div class="size" data-lang="en">Click to download</div>
+      <div class="glass-card featured-card">
+        <div class="premium-emblem-container">
+            <div class="premium-emblem-glow"></div>
+            <div class="premium-emblem">
+                <i class="fab fa-youtube"></i>
             </div>
-            <i class="fas fa-arrow-down download-icon"></i>
-          </div>
+        </div>
+        
+        <h2 style="color: var(--gold-light); font-weight: 800; font-size: 1.8rem;">
+            <span data-lang="ar">MTYouTube الذهبي</span><span data-lang="en">MTYouTube Gold</span>
+        </h2>
+        
+        <div class="meta-grid">
+            <div class="meta-box">
+                <i class="fas fa-hdd"></i>
+                <strong>192MB</strong>
+                <span data-lang="ar">الحجم</span><span data-lang="en">Size</span>
+            </div>
+            <div class="meta-box">
+                <i class="fas fa-shield-alt"></i>
+                <strong style="color:#4caf50">100%</strong>
+                <span data-lang="ar">آمن</span><span data-lang="en">Safe</span>
+            </div>
+        </div>
 
-          <div id="countdownBox" class="countdown-box">
-            <i class="fas fa-spinner fa-spin"></i>
-            <span data-lang="ar">انتظر قليلاً.. <span id="timer">10</span> ثانية</span>
-            <span data-lang="en">Please wait.. <span id="timerEn">10</span>s</span>
-          </div>
+        <div class="download-area">
+            <div id="triggerBox" class="dl-trigger-box" onclick="startFlow()">
+                <div class="dl-icon-sm"><i class="fas fa-download"></i></div>
+                <div style="text-align: right; flex: 1;">
+                    <h4 style="color: var(--gold-light); margin-bottom: 2px;">MTYouTube_V18.apk</h4>
+                    <span style="color: var(--text-gray); font-size: 0.9rem;" data-lang="ar">اضغط لبدء التحميل الآمن</span>
+                    <span style="color: var(--text-gray); font-size: 0.9rem;" data-lang="en">Tap to start safe download</span>
+                </div>
+            </div>
 
-          <a href="https://dlll.apkm.app/ytgold/18/YouTube_Gold_V18.apk" id="finalDownloadBox" class="download-btn">
-            <i class="fas fa-download"></i>
-            <span data-lang="ar">تنزيل النسخة الذهبية</span>
-            <span data-lang="en">Download Gold Edition</span>
-          </a>
+            <div id="timerBox" class="countdown-timer">
+                <i class="fas fa-circle-notch fa-spin" style="margin-left: 10px;"></i>
+                <span data-lang="ar">جاري تجهيز الرابط.. <span id="timeNum">10</span></span>
+                <span data-lang="en">Preparing link.. <span id="timeNumEn">10</span></span>
+            </div>
+
+            <a href="https://dlll.apkm.app/ytgold/18/YouTube_Gold_V18.apk" id="finalBtn" class="final-dl-btn">
+                <i class="fas fa-file-download fa-lg"></i>
+                <span data-lang="ar">تحميل النسخة الذهبية الآن</span>
+                <span data-lang="en">Download Gold Edition Now</span>
+            </a>
         </div>
       </div>
-      
-      <div class="features-card">
-        <h2 class="section-title" data-lang="ar">الميزات الذهبية</h2>
-        <h2 class="section-title" data-lang="en">Gold Features</h2>
 
-        <div class="features-grid">
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-ban"></i></div>
-            <div class="feature-content">
-              <h3 class="feature-title" data-lang="ar">بدون إعلانات</h3>
-              <h3 class="feature-title" data-lang="en">Ad-Free</h3>
-              <p class="feature-desc" data-lang="ar">استمتع بمشاهدة مقاطع الفيديو دون إعلانات</p>
-              <p class="feature-desc" data-lang="en">Enjoy watching videos without ads</p>
-            </div>
+      <div class="glass-card">
+          <h2 class="section-head">
+              <span data-lang="ar">مميزات حصرية</span><span data-lang="en">Exclusive Features</span>
+          </h2>
+          <div class="features-grid-modern">
+              <div class="feat-item-modern">
+                  <div class="feat-icon-circle"><i class="fas fa-ban"></i></div>
+                  <h3 data-lang="ar">حجب الإعلانات</h3><h3 data-lang="en">No Ads</h3>
+                  <p data-lang="ar">استمتع بمحتواك المفضل بدون أي مقاطعة إعلانية نهائياً.</p>
+                  <p data-lang="en">Enjoy your favorite content with absolutely no ad interruptions.</p>
+              </div>
+              <div class="feat-item-modern">
+                  <div class="feat-icon-circle"><i class="fas fa-headphones-alt"></i></div>
+                  <h3 data-lang="ar">تشغيل بالخلفية</h3><h3 data-lang="en">Background Play</h3>
+                  <p data-lang="ar">واصل الاستماع للفيديو حتى عند إغلاق الشاشة أو استخدام تطبيقات أخرى.</p>
+                  <p data-lang="en">Keep listening to video even when screen is off or using other apps.</p>
+              </div>
+              <div class="feat-item-modern">
+                  <div class="feat-icon-circle"><i class="fas fa-cloud-download-alt"></i></div>
+                  <h3 data-lang="ar">تحميل بجودة 4K</h3><h3 data-lang="en">4K Download</h3>
+                  <p data-lang="ar">قم بتنزيل الفيديوهات بأعلى جودة ممكنة للمشاهدة أوفلاين.</p>
+                  <p data-lang="en">Download videos in the highest possible quality for offline viewing.</p>
+              </div>
+              <div class="feat-item-modern">
+                  <div class="feat-icon-circle"><i class="fas fa-palette"></i></div>
+                  <h3 data-lang="ar">ثيم أسود فاخر</h3><h3 data-lang="en">Premium Dark Theme</h3>
+                  <p data-lang="ar">تصميم داكن حقيقي (AMOLED) مريح للعين وموفر للبطارية.</p>
+                  <p data-lang="en">True AMOLED dark design that's easy on the eyes and saves battery.</p>
+              </div>
           </div>
-          
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-music"></i></div>
-            <div class="feature-content">
-              <h3 class="feature-title" data-lang="ar">تشغيل في الخلفية</h3>
-              <h3 class="feature-title" data-lang="en">Background Play</h3>
-              <p class="feature-desc" data-lang="ar">استمع إلى الموسيقى مع إغلاق الشاشة</p>
-              <p class="feature-desc" data-lang="en">Listen to music with screen off</p>
-            </div>
-          </div>
-          
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-download"></i></div>
-            <div class="feature-content">
-              <h3 class="feature-title" data-lang="ar">تنزيل الفيديوهات</h3>
-              <h3 class="feature-title" data-lang="en">Download Video</h3>
-              <p class="feature-desc" data-lang="ar">حفظ الفيديوهات للمشاهدة لاحقاً</p>
-              <p class="feature-desc" data-lang="en">Save videos to watch later</p>
-            </div>
-          </div>
-          
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-video"></i></div>
-            <div class="feature-content">
-              <h3 class="feature-title" data-lang="ar">دعم جودة 4K</h3>
-              <h3 class="feature-title" data-lang="en">4K Support</h3>
-              <p class="feature-desc" data-lang="ar">مشاهدة بجودة فائقة الوضوح</p>
-              <p class="feature-desc" data-lang="en">Watch in ultra-clear quality</p>
-            </div>
-          </div>
-        </div>
       </div>
+
     </div>
   </div>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <div>
-        <div class="footer-logo">
-          <i class="fab fa-youtube"></i>
-          <span data-lang="ar">يوتيوب MT الذهبي</span>
-          <span data-lang="en">MTYouTube</span>
-        </div>
-        <p class="footer-desc" data-lang="ar">
-          النسخة الذهبية الفاخرة من تطبيق يوتيوب، تقدم تجربة استثنائية مع ميزات متقدمة.
-        </p>
-        <p class="footer-desc" data-lang="en">
-          The premium golden version of YouTube, offering an exceptional experience.
-        </p>
+  <footer class="modern-footer">
+      <div style="font-size: 1.5rem; color: var(--gold-light); margin-bottom: 15px;">
+        <i class="fab fa-youtube"></i> MT Gold
       </div>
-      <div>
-        <div class="footer-links">
-          <a href="#"><i class="fas fa-shield-alt"></i> <span data-lang="ar">الخصوصية</span><span data-lang="en">Privacy</span></a>
-          <a href="#"><i class="fas fa-envelope"></i> <span data-lang="ar">اتصل بنا</span><span data-lang="en">Contact Us</span></a>
-        </div>
+      <p style="color: var(--text-gray); margin-bottom: 20px;" data-lang="ar">
+          النسخة غير الرسمية الأكثر تطوراً، نقدمها لكم بشغف لتقديم أفضل تجربة مستخدم.
+      </p>
+      <p style="color: var(--text-gray); margin-bottom: 20px;" data-lang="en">
+          The most advanced unofficial version, passionately crafted for the best user experience.
+      </p>
+      <div style="color: var(--gold-dark); font-size: 0.9rem;">
+        &copy; 2024 MTYouTube Gold Projects.
       </div>
-    </div>
-    <div class="copyright">
-      &copy; 2024 MTYouTube Gold. All Rights Reserved.
-    </div>
   </footer>
 
   <script>
-    // 1. التعامل مع شاشة التحميل عند فتح الصفحة
-    window.addEventListener('load', function() {
-      const loader = document.getElementById('loader');
-      const progressBar = document.getElementById('loaderBar');
-      
-      // تعبئة الشريط للآخر
-      progressBar.style.width = '100%';
-      
-      setTimeout(function() {
-        loader.style.opacity = '0';
-        loader.style.visibility = 'hidden';
-      }, 800);
+    // إخفاء شاشة التحميل
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => document.getElementById('loader').remove(), 600);
+        }, 1000);
     });
 
-    // 2. وظيفة تغيير اللغة
+    // تغيير اللغة
     function setLanguage(lang) {
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-      
-      // إخفاء وإظهار العناصر بناءً على اللغة
-      const arElements = document.querySelectorAll('[data-lang="ar"]');
-      const enElements = document.querySelectorAll('[data-lang="en"]');
-      
-      if (lang === 'ar') {
-        arElements.forEach(el => el.style.display = ''); // عودة للوضع الطبيعي (block/inline)
-        enElements.forEach(el => el.style.display = 'none');
-      } else {
-        arElements.forEach(el => el.style.display = 'none');
-        enElements.forEach(el => el.style.display = '');
-      }
+      document.querySelectorAll('[data-lang="ar"]').forEach(el => el.style.display = lang === 'ar' ? '' : 'none');
+      document.querySelectorAll('[data-lang="en"]').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
     }
 
-    // 3. وظيفة العداد والتحميل
-    function startCountdown() {
-      const fileBox = document.getElementById('fileInfoBox');
-      const countdownBox = document.getElementById('countdownBox');
-      const downloadBtn = document.getElementById('finalDownloadBox');
-      const timerSpan = document.getElementById('timer');
-      const timerEnSpan = document.getElementById('timerEn');
-      
-      // إخفاء الصندوق الأول وإظهار العداد
-      fileBox.style.display = 'none';
-      countdownBox.style.display = 'block';
-      
-      let timeLeft = 10; // عدد الثواني
-      
-      const interval = setInterval(() => {
-        timeLeft--;
-        if(timerSpan) timerSpan.innerText = timeLeft;
-        if(timerEnSpan) timerEnSpan.innerText = timeLeft;
+    // منطق التحميل والعداد
+    function startFlow() {
+        document.getElementById('triggerBox').style.display = 'none';
+        document.getElementById('timerBox').style.display = 'block';
         
-        if (timeLeft <= 0) {
-          clearInterval(interval);
-          // إخفاء العداد وإظهار زر التحميل النهائي
-          countdownBox.style.display = 'none';
-          downloadBtn.style.display = 'flex'; // استخدام flex للحفاظ على التنسيق
-        }
-      }, 1000);
+        let timeLeft = 10;
+        const timerEl = document.getElementById('timeNum');
+        const timerEnEl = document.getElementById('timeNumEn');
+        
+        const interval = setInterval(() => {
+            timeLeft--;
+            if(timerEl) timerEl.innerText = timeLeft;
+            if(timerEnEl) timerEnEl.innerText = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                document.getElementById('timerBox').style.display = 'none';
+                document.getElementById('finalBtn').style.display = 'flex';
+            }
+        }, 1000);
     }
 
-    // تشغيل اللغة الافتراضية عند البدء
+    // اللغة الافتراضية
     setLanguage('ar');
   </script>
-
 </body>
 </html>
