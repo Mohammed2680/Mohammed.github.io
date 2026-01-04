@@ -1,217 +1,408 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تسجيل دخول - شبكة طواف نت</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<title>شبكة طواف نت</title>
+    <style>
+        :root {
+            --primary-bg: #4a0e8f; /* لون الخلفية البنفسجي */
+            --dark-purple: #240046;
+            --accent-yellow: #f1c40f;
+            --white: #ffffff;
+            --border-color: rgba(255, 255, 255, 0.8);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --warning-bg: rgba(40, 0, 60, 0.85);
+        }
 
-<style>
-*{
-    box-sizing: border-box;
-    font-family: 'Cairo', Tahoma, sans-serif;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-body{
-    margin:0;
-    min-height:100vh;
-    background: linear-gradient(135deg,#6a1b9a,#3b0a57);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#fff;
-}
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(180deg, #6a1b9a 0%, #4a148c 40%, #311b92 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
 
-.container{
-    width:100%;
-    max-width:420px;
-    padding:20px;
-}
+        /* حاوية الموبايل */
+        .mobile-container {
+            width: 100%;
+            max-width: 420px;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: url('https://img.freepik.com/free-vector/gradient-purple-background-with-geometric-shapes_23-2149116345.jpg'); /* خلفية تقريبية */
+            background-size: cover;
+            background-blend-mode: multiply;
+            background-color: rgba(74, 20, 140, 0.9);
+        }
 
-.card{
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(12px);
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.4);
-}
+        /* الهيدر والعنوان */
+        .header {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
 
-.title{
-    text-align:center;
-    font-size:22px;
-    font-weight:700;
-    margin-bottom:10px;
-}
+        .network-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            line-height: 1.4;
+        }
 
-.subtitle{
-    text-align:center;
-    font-size:14px;
-    opacity:0.9;
-    margin-bottom:25px;
-}
+        .bolt {
+            color: var(--accent-yellow);
+            font-size: 1.4rem;
+            margin: 0 5px;
+        }
 
-.select-box,
-.input-box{
-    background: rgba(255,255,255,0.15);
-    border-radius:12px;
-    padding:12px 15px;
-    margin-bottom:15px;
-}
+        /* مربع الملاحظة العائم في الأعلى */
+        .top-notice {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 10px;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 30px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.5;
+            backdrop-filter: blur(5px);
+        }
 
-select,
-input{
-    width:100%;
-    background: transparent;
-    border:none;
-    outline:none;
-    color:#fff;
-    font-size:15px;
-}
+        /* قسم الفورم */
+        .form-area {
+            width: 100%;
+            text-align: center;
+        }
 
-select option{
-    color:#000;
-}
+        .label-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f1c40f;
+            margin-bottom: 15px;
+            display: block;
+        }
 
-.login-btn{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:14px;
-    font-size:18px;
-    font-weight:bold;
-    background: linear-gradient(135deg,#ffffff,#e0c3ff);
-    color:#4a0072;
-    cursor:pointer;
-    box-shadow:0 8px 20px rgba(0,0,0,0.4);
-    margin-top:10px;
-}
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
 
-.notice{
-    background: rgba(0,0,0,0.35);
-    border-radius:14px;
-    padding:15px;
-    margin-top:20px;
-    font-size:13px;
-}
+        .custom-input, .custom-select {
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--white);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: var(--white);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            appearance: none;
+        }
 
-.toggle{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:10px;
-}
+        .custom-select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            background-size: 20px;
+        }
 
-.toggle input{
-    width:45px;
-    height:22px;
-    appearance:none;
-    background:#888;
-    border-radius:20px;
-    position:relative;
-    cursor:pointer;
-}
+        option {
+            background: #311b92;
+            color: white;
+        }
 
-.toggle input:checked{
-    background:#4caf50;
-}
+        .user-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
 
-.toggle input::before{
-    content:'';
-    position:absolute;
-    width:18px;
-    height:18px;
-    background:#fff;
-    border-radius:50%;
-    top:2px;
-    left:2px;
-    transition:0.3s;
-}
+        .saved-cards-btn {
+            background: transparent;
+            border: 1px solid var(--white);
+            border-radius: 20px;
+            padding: 5px 20px;
+            color: var(--white);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            display: inline-block;
+            cursor: pointer;
+        }
 
-.toggle input:checked::before{
-    left:25px;
-}
+        /* زر الدخول */
+        .login-btn {
+            background: var(--white);
+            color: #4a148c;
+            border: none;
+            width: 80%;
+            padding: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: 'Cairo', sans-serif;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
 
-.bottom-icons{
-    display:flex;
-    justify-content:space-around;
-    margin:25px 0 15px;
-    font-size:13px;
-    opacity:0.9;
-}
+        .login-btn:active {
+            transform: scale(0.95);
+        }
 
-.actions{
-    display:flex;
-    gap:10px;
-}
+        /* مربع التحذير (إيقاف التحديثات) */
+        .warning-box {
+            background: var(--warning-bg);
+            border: 1px solid var(--white);
+            border-radius: 15px;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
 
-.action-btn{
-    flex:1;
-    padding:10px;
-    text-align:center;
-    border-radius:12px;
-    background: rgba(255,255,255,0.18);
-    font-size:14px;
-}
+        .warning-header {
+            color: var(--white);
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-.footer{
-    text-align:center;
-    margin-top:15px;
-    font-size:12px;
-    opacity:0.8;
-}
-</style>
+        .warning-text {
+            font-size: 0.75rem;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            color: #ddd;
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* زر التبديل (Switch) */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary-bg); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* الأيقونات السفلية */
+        .nav-icons {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* دائرة */
+            background: rgba(255,255,255,0.1);
+            border: 2px solid white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+            /* شكل الدمعة المقلوبة للنقطة الوسطى */
+        }
+        
+        .nav-item:nth-child(2) .icon-circle {
+             border-bottom-left-radius: 0;
+             transform: rotate(-45deg);
+             border-radius: 50% 50% 50% 0;
+             margin-top: -10px; /* رفع الأيقونة الوسطى قليلاً */
+        }
+        .nav-item:nth-child(2) .icon-circle i {
+            transform: rotate(45deg);
+        }
+
+        /* أزرار الاتصال */
+        .contact-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .contact-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(80, 20, 120, 0.6);
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 8px;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        /* الفوتر */
+        .footer {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: auto;
+        }
+        
+        .red-icon { color: #ff4757; }
+
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-    <div class="card">
-
-        <div class="title">⚡ شبكة طواف نت اللاسلكية ⚡</div>
-        <div class="subtitle">
-            يمكنك طلب الخدمة والدفع عبر المحافظ الإلكترونية (ون كاش – حبيب)
-        </div>
-
-        <div class="select-box">
-            <select>
-                <option>1M سرعة عادية</option>
-                <option>2M سرعة متوسطة</option>
-                <option>4M سرعة عالية</option>
-                <option>VIP سرعة مفتوحة</option>
-            </select>
-        </div>
-
-        <div class="input-box">
-            <input type="text" placeholder="رقم الكرت / الكود">
-        </div>
-
-        <div class="select-box">
-            <select>
-                <option>الكروت المحفوظة</option>
-            </select>
-        </div>
-
-        <button class="login-btn">تسجيل الدخول</button>
-
-        <div class="notice">
-            ⚠️ <strong>ملاحظة هامة:</strong><br>
-            سيتم إيقاف تحديث التطبيقات وبرامج المزامنة تلقائيًا
-            لضمان عدم انتهاء رصيدك بسرعة.
-            <div class="toggle">
-                <span>إيقاف التحديثات</span>
-                <input type="checkbox" checked>
+    <div class="mobile-container">
+        
+        <div class="header">
+            <div class="network-name">
+                <i class="fas fa-bolt bolt"></i> شبكة <i class="fas fa-bolt bolt"></i><br>
+                طواف نت اللاسلكية
             </div>
         </div>
 
-        <div class="bottom-icons">
-            <div>الأسعار</div>
-            <div>نقاط البيع</div>
-            <div>العروض</div>
+        <div class="top-notice">
+            بامكانك طلب خدمتنا والدفع عبر المحافظ الالكترونية (ون كاش - جوالي - كاش -جيب)
         </div>
 
-        <div class="actions">
-            <div class="action-btn">📞 اتصل بنا</div>
-            <div class="action-btn">💬 راسلنا</div>
+        <form class="form-area" method="post" action="$(link-login-only)">
+            
+            <label class="label-text">( اختر من هنا 👇 السرعة التي تناسبك )</label>
+
+            <div class="input-group">
+                <select class="custom-select">
+                    <option>1M سرعة عادية</option>
+                    <option>2M سرعة عالية</option>
+                    <option>4M سرعة صاروخية</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <input type="tel" class="custom-input" placeholder="286467036" value="286467036">
+                <i class="fas fa-user-circle user-icon"></i>
+            </div>
+
+            <div style="text-align: center;">
+                <select class="saved-cards-btn">
+                    <option>الكروت المحفوظة</option>
+                </select>
+            </div>
+
+            <button type="submit" class="login-btn">
+                تسجيل الدخول
+            </button>
+        </form>
+
+        <div class="warning-box">
+            <div class="warning-header">
+                ملاحظة هامة !! <i class="fas fa-minus-circle red-icon"></i>
+            </div>
+            <p class="warning-text">
+                سيتم إيقاف تحديث التطبيقات وبرامج المزامنة في جهازك تلقائياً لضمان عدم انتهاء رصيدك بسرعة، ويمكنك تشغيلها بالضغط هنا لا
+            </p>
+            <div class="toggle-row">
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>سيتم إيقاف التحديثات</span>
+            </div>
+        </div>
+
+        <div class="nav-icons">
+            <a href="#" class="nav-item">
+                <div class="icon-circle"><i class="fas fa-info"></i></div>
+                <span>العروض</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div>
+                <span>نقاط البيع</span>
+            </a>
+            <a href="#" class="nav-item">
+                <div class="icon-circle"><i class="fas fa-tags"></i></div>
+                <span>الاسعار</span>
+            </a>
+        </div>
+
+        <div class="contact-buttons">
+            <a href="#" class="contact-btn">
+                راسلنا <i class="fas fa-phone fa-rotate-180"></i>
+            </a>
+            <a href="#" class="contact-btn">
+                اتصل بنا <i class="fas fa-phone-alt"></i>
+            </a>
         </div>
 
         <div class="footer">
@@ -219,7 +410,6 @@ select option{
         </div>
 
     </div>
-</div>
 
 </body>
 </html>
