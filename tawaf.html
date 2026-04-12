@@ -40,34 +40,6 @@
       --shadow: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-hover: 0 8px 20px rgba(0,0,0,0.12);
     
-    /* ألوان الوضع الفاتح (الافتراضي) */
-      --bg-gradient: linear-gradient(135deg, #fffaf0 0%, #fff5e6 100%);
-      --card-bg: #ffffff;
-      --text-main: #222222;
-      --text-muted: #555555;
-      --feature-bg: #fff9e6;
-      --feature-border: rgba(253, 184, 39, 0.2);
-      --notice-bg: #fff8e1;
-      
-      /* الظلال */
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-hover: 0 8px 20px rgba(0,0,0,0.12);
-      --transition: all 0.3s ease;
-    }
-
-    [data-theme="dark"] {
-      /* ألوان الوضع الليلي */
-      --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-      --card-bg: #1e1e1e;
-      --text-main: #f8f8f8;
-      --text-muted: #bbbbbb;
-      --feature-bg: #2a2a2a;
-      --feature-border: rgba(253, 184, 39, 0.4);
-      --notice-bg: #2d2411;
-      --shadow: 0 4px 12px rgba(0,0,0,0.3);
-      --shadow-hover: 0 8px 20px rgba(0,0,0,0.5);
-    }
-    
     * {
       margin: 0;
       padding: 0;
@@ -769,10 +741,6 @@
     <span id="langLabel">EN</span>
     <i class="fas fa-globe"></i>
   </button>
-
-  <button class="btn-control" onclick="toggleTheme()">
-    <i class="fas fa-moon"></i>
-  </button>
 </div>
   </div>
 
@@ -1055,17 +1023,6 @@ function setLanguage(selectedLang) {
 function toggleLang() {
   const newLang = lang === 'ar' ? 'en' : 'ar';
   setLanguage(newLang);
-}
-
-
-// 🌙 الوضع الليلي
-function toggleTheme() {
-  const html = document.documentElement;
-  const currentTheme = html.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-  html.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
 }
 
 
