@@ -85,7 +85,36 @@
 }
     
     [data-lang] { display: none; }
-    
+   
+    .controls {
+  display: flex;
+  gap: 10px;
+  direction: ltr; /* مهم عشان ترتيب الأزرار */
+}
+
+.btn-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-control i {
+  font-size: 14px;
+}
+
+.btn-control:hover {
+  background: rgba(255,255,255,0.3);
+}
+      
     /* شاشة التحميل */
     #loader {
       position: fixed;
@@ -736,13 +765,15 @@
     </a>
     
     <div class="controls">
-      <button class="btn-control" id="themeToggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i>
-      </button>
-      <button class="btn-control" onclick="toggleLang()">
-        <i class="fas fa-globe"></i> <span id="langLabel">EN</span>
-      </button>
-    </div>
+  <button class="btn-control" onclick="toggleLang()">
+    <span id="langLabel">EN</span>
+    <i class="fas fa-globe"></i>
+  </button>
+
+  <button class="btn-control" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i>
+  </button>
+</div>
   </div>
 
   <header class="header">
