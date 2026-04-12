@@ -75,14 +75,14 @@
     }
     
     body {
-      font-family: 'Tajawal', sans-serif;
-      font-weight: 500;
-      line-height: 1.7;
-      color: var(--text-dark);
-      background: linear-gradient(135deg, #fffaf0 0%, #fff5e6 100%);
-      min-height: 100vh;
-      position: relative;
-    }
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--text-main);
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  position: relative;
+}
     
     [data-lang] { display: none; }
     
@@ -956,12 +956,19 @@
   </footer>
 
   <script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  // تشغيل اللغة تلقائي
+  // اللغة
   initLang();
 
-  // إصلاح اللودر
+  // استرجاع الوضع الليلي
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }
+
+  // اللودر
   let progress = 0;
   const progressBar = document.getElementById('loaderBar');
   const loader = document.getElementById('loader');
@@ -1008,11 +1015,16 @@ function setLanguage(selectedLang) {
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
 
-  // حماية من الخطأ (العنصر مش موجود)
   const label = document.getElementById('langLabel');
   if (label) {
     label.innerText = lang === 'ar' ? 'EN' : 'AR';
   }
+}
+
+// ✅ هذا كان ناقص
+function toggleLang() {
+  const newLang = lang === 'ar' ? 'en' : 'ar';
+  setLanguage(newLang);
 }
 
 
@@ -1023,6 +1035,7 @@ function toggleTheme() {
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
   html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
 }
 
 
