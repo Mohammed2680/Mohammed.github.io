@@ -1,199 +1,451 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MTInstagram V26 - Premium</title>  <link rel="icon" href="https://instagold.download/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  <style>
-    :root{
-      --gold1:#FDB827;
-      --gold2:#F58529;
-      --dark:#222;
-      --muted:#666;
-      --bg:#fff7e6;
-      --card:#ffffff;
-      --shadow:0 10px 25px rgba(0,0,0,.08);
-      --radius:18px;
-      --transition:.3s ease;
+  <title>MTInstagram_V26</title>
+  
+  <link rel="icon" href="https://instagold.download/favicon.ico" type="image/x-icon">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="robots" content="index,follow"/>
+  <meta name="description" content="انستقرام MT الذهبي هو نسخة محسنة من تطبيق انستغرام مع واجهة ذهبية وميزات فريدة مثل تنزيل الصور والفيديوهات والمزيد."/>
+  <meta name="keywords" content="انستقرام MT الذهبي, MTInsta, نسخة انستغرام معدلة,"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      /* الألوان الأساسية */
+      --gold-primary: #FDB827;
+      --gold-secondary: #F58529;
+      --gold-dark: #833AB4;
+      --gold-accent: #E1306C;
+      --telegram-color: #0088cc;
+      
+      /* ألوان الوضع الفاتح (الافتراضي) */
+      --bg-gradient: linear-gradient(135deg, #fffaf0 0%, #fff5e6 100%);
+      --card-bg: #ffffff;
+      --text-main: #222222;
+      --text-muted: #555555;
+      --feature-bg: #fff9e6;
+      --feature-border: rgba(253, 184, 39, 0.2);
+      --notice-bg: #fff8e1;
+      
+      /* الظلال */
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 20px rgba(0,0,0,0.12);
+      --transition: all 0.3s ease;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box}
-
-    body{
-      font-family:'Tajawal',sans-serif;
-      background:linear-gradient(135deg,#fffaf0,#fff5e6);
-      color:var(--dark);
+    [data-theme="dark"] {
+      /* ألوان الوضع الليلي */
+      --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+      --card-bg: #1e1e1e;
+      --text-main: #f8f8f8;
+      --text-muted: #bbbbbb;
+      --feature-bg: #2a2a2a;
+      --feature-border: rgba(253, 184, 39, 0.4);
+      --notice-bg: #2d2411;
+      --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow-hover: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--text-main);
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    [data-lang] { display: none; }
+    
+    /* الحركات */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-up { animation: fadeInUp 0.6s ease forwards; }
+    
+    /* شاشة التحميل */
+    #loader {
+      position: fixed; inset: 0; background: var(--card-bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity 0.5s ease;
+    }
+    .loader-content {
+      text-align: center; padding: 30px; border-radius: 16px;
+      background: var(--card-bg); box-shadow: var(--shadow);
+      border: 2px solid var(--gold-primary);
+    }
+    .loader-logo { width: 70px; height: 70px; margin-bottom: 15px; animation: pulse 1.5s infinite; }
+    .loader-text { font-size: 18px; font-weight: 600; color: var(--gold-dark); margin-bottom: 15px; }
+    .loader-progress { width: 100%; height: 6px; background: #e0e0e0; border-radius: 4px; overflow: hidden; position: relative; }
+    .loader-progress-bar { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold-secondary), var(--gold-primary)); transition: width 0.5s ease; }
+    
+    /* الشريط العلوي */
+    .top-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 20px; background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-accent) 100%);
+      box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; color: white; font-weight: 700; font-size: 18px; text-decoration: none; }
+    .controls { display: flex; gap: 8px; align-items: center; }
+    .btn-control {
+      background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white; padding: 5px 12px; border-radius: 30px; font-weight: 600; font-size: 14px;
+      cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 5px;
+    }
+    .btn-control:hover { background: rgba(255, 255, 255, 0.3); }
+    
+    /* الهيدر */
+    .header {
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-accent) 100%);
+      text-align: center; padding: 30px 15px; position: relative; overflow: hidden;
+    }
+    .header-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+    h1 { font-size: 26px; font-weight: 800; margin-bottom: 8px; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .subtitle { font-size: 16px; color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto 15px; }
+    .version-badge { display: inline-block; background: rgba(0, 0, 0, 0.2); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 13px; border: 1px solid rgba(255,255,255,0.3); }
+    
+    /* المحتوى الرئيسي */
+    .main-content { max-width: 1200px; margin: -40px auto 30px; padding: 0 15px; position: relative; z-index: 5; }
+    .content-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+    @media (min-width: 768px) { .content-grid { grid-template-columns: 1fr 1fr; } }
+    
+    /* بطاقة التطبيق */
+    .app-card {
+      background: var(--card-bg); border-radius: 18px; box-shadow: var(--shadow);
+      text-align: center; padding: 25px; display: flex; flex-direction: column; align-items: center;
+      border: 1px solid var(--feature-border); transition: var(--transition);
+    }
+    .app-logo-container { position: relative; margin-bottom: 20px; }
+    .app-logo { width: 130px; height: 130px; border-radius: 25px; border: 4px solid var(--card-bg); position: relative; z-index: 2; box-shadow: 0 8px 16px rgba(253, 184, 39, 0.3); }
+    .app-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; }
+    .app-description { color: var(--text-muted); margin-bottom: 25px; line-height: 1.7; font-size: 15px; }
+    
+    /* الميتا والتحميل */
+    .app-meta { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+    .meta-item { display: flex; flex-direction: column; align-items: center; min-width: 80px; }
+    .meta-icon { font-size: 18px; color: var(--gold-primary); margin-bottom: 5px; }
+    .meta-value { font-weight: 700; font-size: 15px; color: var(--text-main); }
+    .meta-label { font-size: 13px; color: var(--text-muted); }
+    
+    .download-box { width: 100%; max-width: 380px; margin: 15px auto; }
+    .file-box, .download-btn {
+      display: flex; align-items: center; background: linear-gradient(135deg, var(--gold-secondary), var(--gold-primary));
+      color: white; padding: 16px; border-radius: 14px; box-shadow: 0 5px 12px rgba(253, 184, 39, 0.4);
+      text-decoration: none; transition: var(--transition); cursor: pointer; border: none; width: 100%; justify-content: center;
+    }
+    .file-box:hover, .download-btn:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .file-box img { width: 55px; height: 55px; margin-right: 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.2); padding: 7px; }
+    .file-box .text { display: flex; flex-direction: column; text-align: right; flex: 1; }
+    .file-box .title { font-weight: 700; font-size: 18px; margin-bottom: 3px; }
+    .file-box .size { font-size: 13px; opacity: 0.9; }
+    
+    .countdown-box {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+      padding: 16px; margin-top: 18px; border-radius: 14px; font-size: 17px; font-weight: 700;
+      text-align: center; color: #fff; display: none;
+    }
+    
+    .install-notice {
+      background: var(--notice-bg); border-right: 4px solid #ffc107; border-radius: 10px;
+      padding: 15px; margin: 20px auto; max-width: 380px; text-align: right; color: var(--text-muted);
+    }
+    .install-notice h4 { color: #ff9800; margin-bottom: 8px; font-size: 16px; }
+    
+    /* ميزات التطبيق */
+    .features-card, .faq-card {
+      background: var(--card-bg); border-radius: 18px; box-shadow: var(--shadow);
+      padding: 25px; border: 1px solid var(--feature-border);
+    }
+    .section-title { font-size: 22px; font-weight: 800; color: var(--text-main); text-align: center; margin-bottom: 25px; position: relative; padding-bottom: 12px; }
+    .section-title::after { content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 3px; background: linear-gradient(90deg, var(--gold-secondary), var(--gold-primary)); border-radius: 2px; }
+    
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .feature-item {
+      display: flex; gap: 12px; padding: 18px; border-radius: 14px; background: var(--feature-bg);
+      transition: var(--transition); border: 1px solid var(--feature-border);
+    }
+    .feature-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .feature-icon { width: 45px; height: 45px; min-width: 45px; border-radius: 10px; background: linear-gradient(135deg, var(--gold-secondary), var(--gold-primary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+    .feature-title { font-weight: 700; font-size: 16px; margin-bottom: 6px; color: var(--text-main); }
+    .feature-desc { font-size: 14px; color: var(--text-muted); }
+    
+    .extra-features span {
+      background: var(--feature-bg); padding: 6px 12px; border-radius: 20px; font-size: 13px;
+      border: 1px solid var(--feature-border); color: var(--text-main); display: inline-block; margin: 4px;
     }
 
-    /* LOADER */
-    #loader{
-      position:fixed;inset:0;
-      background:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      z-index:9999;
+    /* الأسئلة الشائعة (FAQ) */
+    .faq-item { margin-bottom: 10px; border: 1px solid var(--feature-border); border-radius: 10px; overflow: hidden; }
+    .faq-question {
+      background: var(--feature-bg); padding: 15px; font-weight: 700; color: var(--text-main);
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: var(--transition);
     }
-
-    .bar{
-      width:200px;height:6px;
-      background:#eee;border-radius:10px;
-      overflow:hidden;margin-top:10px;
+    .faq-question:hover { background: rgba(253, 184, 39, 0.1); }
+    .faq-answer {
+      padding: 0 15px; background: var(--card-bg); color: var(--text-muted);
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
     }
+    .faq-item.active .faq-answer { padding: 15px; max-height: 200px; }
+    .faq-item.active .faq-question i { transform: rotate(180deg); }
+    
+    /* الفوتر */
+    .footer { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-accent) 100%); color: white; padding: 40px 15px 25px; margin-top: 40px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; gap: 35px; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .footer-content { grid-template-columns: 1fr 1fr; } }
+    .footer-links a { color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+    .footer-links a:hover { color: var(--gold-primary); }
+    .copyright { text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 13px; }
+    
+    @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
+  </style>
+</head>
 
-    .bar span{
-      display:block;height:100%;width:0%;
-      background:linear-gradient(90deg,var(--gold2),var(--gold1));
-      transition:.3s;
-    }
+<body>
 
-    /* TOP BAR */
-    .topbar{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:12px 18px;
-      background:linear-gradient(135deg,var(--gold2),var(--gold1));
-      color:#fff;position:sticky;top:0;z-index:10;
-    }
-
-    .brand{display:flex;align-items:center;gap:8px;font-weight:800}
-
-    .lang button{
-      border:none;padding:6px 10px;
-      border-radius:20px;cursor:pointer;font-weight:700;
-    }
-
-    /* HEADER */
-    header{
-      text-align:center;
-      padding:30px 15px;
-      background:linear-gradient(135deg,var(--gold2),var(--gold1));
-      color:#fff;
-    }
-
-    header h1{font-size:24px;margin-bottom:6px}
-
-    /* CONTAINER */
-    .container{
-      max-width:1100px;
-      margin:-30px auto 40px;
-      padding:0 15px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:20px;
-    }
-
-    @media(min-width:900px){
-      .container{grid-template-columns:1fr 1fr}
-    }
-
-    /* CARD */
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:20px;
-      text-align:center;
-    }
-
-    .logo{
-      width:120px;height:120px;border-radius:20px;
-      margin-bottom:10px;
-    }
-
-    .btn{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:14px 20px;
-      border-radius:50px;
-      background:linear-gradient(135deg,var(--gold2),var(--gold1));
-      color:#fff;text-decoration:none;font-weight:700;
-      width:100%;max-width:320px;margin-top:15px;
-      transition:var(--transition);
-    }
-
-    .btn:hover{transform:translateY(-4px)}
-
-    /* FEATURES */
-    .feature{
-      display:flex;gap:12px;
-      padding:14px;
-      background:#fff7e6;
-      border-radius:14px;
-      margin-bottom:10px;
-    }
-
-    .icon{
-      width:42px;height:42px;
-      display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,var(--gold2),var(--gold1));
-      color:#fff;border-radius:10px;
-    }
-
-    /* DOWNLOAD BOX */
-    .countdown{display:none;margin-top:10px;font-weight:700}
-
-    footer{
-      text-align:center;
-      padding:20px;
-      background:linear-gradient(135deg,var(--gold2),var(--gold1));
-      color:#fff;
-      margin-top:30px;
-    }
-  </style></head>
-<body><div id="loader">
-  <i class="fas fa-spinner fa-spin" style="font-size:30px"></i>
-  <div class="bar"><span id="bar"></span></div>
-</div><div class="topbar">
-  <div class="brand"><i class="fab fa-instagram"></i> MTInsta</div>
-  <div class="lang">
-    <button onclick="setLang('ar')">AR</button>
-    <button onclick="setLang('en')">EN</button>
+  <div id="loader">
+    <div class="loader-content">
+      <img src="https://instagold.download/favicon.ico" alt="انستقرام MT" class="loader-logo">
+      <div class="loader-text" data-lang="ar">جاري التحميل...</div>
+      <div class="loader-text" data-lang="en">Loading...</div>
+      <div class="loader-progress"><div class="loader-progress-bar" id="loaderBar"></div></div>
+    </div>
   </div>
-</div><header>
-  <h1 data-ar="انستقرام MT الذهبي" data-en="MTInstagram Premium">MTInstagram</h1>
-  <p data-ar="نسخة محسنة" data-en="Enhanced Version"></p>
-</header><div class="container">  <div class="card">
-    <img src="instaplus.png" class="logo" />
-    <h2>MTInstagram V26</h2>
-    <p>141MB • Android 9+</p><a class="btn" onclick="start()"><i class="fas fa-download"></i> Download</a>
 
-<div class="countdown" id="count"></div>
-<a id="final" style="display:none" class="btn" href="https://pub-fcc4c650de6544149a3552e96291577e.r2.dev/MTInsta/MTInstagram_V26.apk">Final Download</a>
+  <div class="top-bar">
+    <a href="#" class="logo">
+      <i class="fab fa-instagram logo-icon"></i>
+      <span data-lang="ar">انستقرام MT</span>
+      <span data-lang="en">MTInsta</span>
+    </a>
+    <div class="controls">
+      <button class="btn-control" id="themeToggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button class="btn-control" onclick="toggleLang()">
+        <i class="fas fa-globe"></i> <span id="langLabel">EN</span>
+      </button>
+    </div>
+  </div>
 
-  </div>  <div class="card">
-    <h2>Features</h2><div class="feature"><div class="icon"><i class="fas fa-download"></i></div><div>Download Media</div></div>
-<div class="feature"><div class="icon"><i class="fas fa-eye"></i></div><div>Anonymous Stories</div></div>
-<div class="feature"><div class="icon"><i class="fas fa-ban"></i></div><div>No Ads</div></div>
-<div class="feature"><div class="icon"><i class="fas fa-copy"></i></div><div>Copy Text</div></div>
+  <header class="header">
+    <div class="header-content animate-up">
+      <h1 data-lang="ar">انستقرام MT الذهبي - النسخة المميزة</h1>
+      <h1 data-lang="en">MTInsta - Premium Edition</h1>
+      <p class="subtitle" data-lang="ar">نسخة انستغرام معدلة مع واجهة ذهبية وميزات حصرية</p>
+      <p class="subtitle" data-lang="en">Modified Instagram with golden interface & exclusive features</p>
+      <div class="version-badge">v26</div>
+    </div>
+  </header>
 
-  </div></div><footer>© 2026 MTInsta</footer><script>
-let b=0;
-let bar=document.getElementById('bar');
+  <div class="main-content">
+    <div class="content-grid">
+      
+      <div class="app-card animate-up" style="animation-delay: 0.1s;">
+        <div class="app-logo-container">
+          <img src="https://instagold.download/favicon.ico" alt="انستقرام MT" class="app-logo">
+        </div>
+        
+        <h2 class="app-title" data-lang="ar">انستقرام MT الذهبي</h2>
+        <h2 class="app-title" data-lang="en">MTInsta Gold</h2>
+        <p class="app-description" data-lang="ar">النسخة الذهبية المحسنة من انستغرام مع ميزات متقدمة وحماية ضد الحظر.</p>
+        <p class="app-description" data-lang="en">Enhanced gold version of Instagram with advanced features and anti-ban.</p>
+        
+        <div class="app-meta">
+          <div class="meta-item"><div class="meta-icon"><i class="fas fa-download"></i></div><div class="meta-value">141MB</div><div class="meta-label" data-lang="ar">حجم الملف</div><div class="meta-label" data-lang="en">Size</div></div>
+          <div class="meta-item"><div class="meta-icon"><i class="fas fa-sync-alt"></i></div><div class="meta-value">v26</div><div class="meta-label" data-lang="ar">الإصدار</div><div class="meta-label" data-lang="en">Version</div></div>
+          <div class="meta-item"><div class="meta-icon"><i class="fas fa-shield-alt"></i></div><div class="meta-value" data-lang="ar">آمن</div><div class="meta-value" data-lang="en">Safe</div><div class="meta-label" data-lang="ar">موثوق</div><div class="meta-label" data-lang="en">Trusted</div></div>
+        </div>
+        
+        <div class="download-box">
+          <a href="javascript:void(0);" onclick="startCountdown()" id="fileInfoBox" class="file-box">
+            <i class="fas fa-file-apk" style="font-size: 30px; margin:0 15px;"></i>
+            <div class="text">
+              <div class="title">MTInstagram_V26.apk</div>
+              <div class="size" data-lang="ar">اضغط لبدء التحميل المباشر</div>
+              <div class="size" data-lang="en">Click to start direct download</div>
+            </div>
+          </a>
+          <div id="countdownBox" class="countdown-box"></div>
+          <div id="finalDownloadBox" style="display: none;">
+            <a href="https://pub-fcc4c650de6544149a3552e96291577e.r2.dev/MTInsta/MTInstagram_V26.apk" class="download-btn">
+              <i class="fas fa-download"></i> <span data-lang="ar">تنزيل الآن</span><span data-lang="en">Download Now</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="install-notice">
+          <h4><i class="fas fa-info-circle"></i> <span data-lang="ar">ملاحظة التثبيت:</span><span data-lang="en">Install Note:</span></h4>
+          <p data-lang="ar">لا تنسَ تفعيل "تثبيت التطبيقات من مصادر غير معروفة" في إعدادات الحماية.</p>
+          <p data-lang="en">Remember to enable "Install from unknown sources" in security settings.</p>
+        </div>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 25px;">
+        <div class="features-card animate-up" style="animation-delay: 0.2s;">
+          <h2 class="section-title" data-lang="ar">أهم الميزات</h2>
+          <h2 class="section-title" data-lang="en">Top Features</h2>
+          <div class="features-grid">
+            <div class="feature-item"><div class="feature-icon"><i class="fas fa-download"></i></div>
+              <div><h3 class="feature-title" data-lang="ar">تحميل الميديا</h3><h3 class="feature-title" data-lang="en">Media Downloader</h3><p class="feature-desc" data-lang="ar">حفظ الفيديوهات والقصص بضغطة زر</p><p class="feature-desc" data-lang="en">Save videos and stories with one click</p></div>
+            </div>
+            <div class="feature-item"><div class="feature-icon"><i class="fas fa-user-secret"></i></div>
+              <div><h3 class="feature-title" data-lang="ar">وضع التخفي</h3><h3 class="feature-title" data-lang="en">Ghost Mode</h3><p class="feature-desc" data-lang="ar">مشاهدة القصص والرسائل دون علم الطرف الآخر</p><p class="feature-desc" data-lang="en">View stories and messages secretly</p></div>
+            </div>
+            <div class="feature-item"><div class="feature-icon"><i class="fas fa-ban"></i></div>
+              <div><h3 class="feature-title" data-lang="ar">بدون إعلانات</h3><h3 class="feature-title" data-lang="en">Ad-Free</h3><p class="feature-desc" data-lang="ar">تصفح نظيف خالي من الإعلانات المزعجة</p><p class="feature-desc" data-lang="en">Clean browsing without annoying ads</p></div>
+            </div>
+            <div class="feature-item"><div class="feature-icon"><i class="fas fa-language"></i></div>
+              <div><h3 class="feature-title" data-lang="ar">الترجمة الفورية</h3><h3 class="feature-title" data-lang="en">Live Translation</h3><p class="feature-desc" data-lang="ar">ترجمة التعليقات والمنشورات داخل التطبيق</p><p class="feature-desc" data-lang="en">Translate comments and posts in-app</p></div>
+            </div>
+          </div>
+          <div class="extra-features" style="margin-top: 15px; text-align: center;">
+            <span data-lang="ar">نسخ البايو</span><span data-lang="en">Copy Bio</span>
+            <span data-lang="ar">تكبير الصور</span><span data-lang="en">Zoom Profile</span>
+            <span data-lang="ar">ثيمات متعددة</span><span data-lang="en">Multiple Themes</span>
+            <span data-lang="ar">ضد الحظر</span><span data-lang="en">Anti-Ban</span>
+          </div>
+        </div>
 
-let t=setInterval(()=>{
-  b+=10;
-  bar.style.width=b+"%";
-  if(b>=100){document.getElementById('loader').style.display='none';clearInterval(t)}
-},100);
+        <div class="faq-card animate-up" style="animation-delay: 0.3s;">
+          <h2 class="section-title" data-lang="ar">الأسئلة الشائعة</h2>
+          <h2 class="section-title" data-lang="en">FAQ</h2>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span data-lang="ar">هل التطبيق آمن على حسابي؟</span>
+              <span data-lang="en">Is the app safe for my account?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p data-lang="ar">نعم، التطبيق مبني على أحدث نسخة رسمية ويحتوي على أكواد حماية متقدمة ضد الحظر لضمان سلامة حسابك.</p>
+              <p data-lang="en">Yes, it's built on the latest official version with advanced anti-ban codes.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+              <span data-lang="ar">هل أحتاج لحذف الانستغرام الرسمي؟</span>
+              <span data-lang="en">Do I need to delete official Instagram?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p data-lang="ar">لا يشترط ذلك دائماً، ولكن يفضل حذفه لتجنب تعارض الحزم (Package Conflict) أثناء التثبيت.</p>
+              <p data-lang="en">Not always, but it's recommended to delete it to avoid package conflicts during installation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-function setLang(l){
-  document.querySelectorAll('[data-ar]').forEach(el=>{
-    el.innerText=el.dataset[l];
-  });
-}
+    </div>
+  </div>
 
-function start(){
-  let c=5;
-  let box=document.getElementById('count');
-  let final=document.getElementById('final');
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <h3 style="margin-bottom: 15px; font-size: 20px;"><i class="fab fa-instagram"></i> MTInsta</h3>
+        <p style="font-size: 14px; opacity: 0.8;" data-lang="ar">النسخة المعدلة الأفضل والأكثر أماناً. نوفر تحديثات دورية لضمان استقرار التطبيق وإضافة ميزات جديدة.</p>
+        <p style="font-size: 14px; opacity: 0.8;" data-lang="en">The best and safest modded version. We provide regular updates for stability and new features.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 15px; font-size: 18px;" data-lang="ar">تواصل معنا</h3><h3 style="margin-bottom: 15px; font-size: 18px;" data-lang="en">Contact Us</h3>
+        <div class="footer-links">
+          <a href="https://t.me/mtwhatsapp"><i class="fab fa-telegram"></i> <span data-lang="ar">قناتنا على تليجرام</span><span data-lang="en">Telegram Channel</span></a>
+          <a href="#"><i class="fas fa-shield-alt"></i> <span data-lang="ar">سياسة الخصوصية</span><span data-lang="en">Privacy Policy</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">&copy; 2026 MTInsta V26. All rights reserved.</div>
+  </footer>
 
-  box.style.display='block';
+  <script>
+    // نظام التحميل
+    document.addEventListener("DOMContentLoaded", () => {
+      let progress = 0;
+      const progressBar = document.getElementById('loaderBar');
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        progressBar.style.width = `${Math.min(progress, 100)}%`;
+        if (progress >= 100) {
+          clearInterval(progressInterval);
+          document.getElementById('loader').style.opacity = '0';
+          setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+        }
+      }, 100);
+      
+      initLang();
+    });
 
-  let i=setInterval(()=>{
-    box.innerText="Preparing... "+c;
-    c--;
-    if(c<0){clearInterval(i);box.style.display='none';final.style.display='inline-flex'}
-  },1000);
-}
-</script></body>
+    // نظام اللغات
+    let lang = 'ar';
+    function initLang() {
+      const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
+      setLanguage(userLang);
+    }
+    function toggleLang() {
+      setLanguage(lang === 'ar' ? 'en' : 'ar');
+    }
+    function setLanguage(selectedLang) {
+      lang = selectedLang;
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+      });
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+      document.getElementById('langLabel').innerText = lang === 'ar' ? 'EN' : 'AR';
+    }
+
+    // الوضع الليلي
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme);
+      
+      const icon = document.querySelector('#themeToggle i');
+      icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+
+    // الأسئلة الشائعة (الأكورديون)
+    function toggleFaq(element) {
+      const parent = element.parentElement;
+      parent.classList.toggle('active');
+    }
+
+    // العد التنازلي للتحميل
+    function startCountdown() {
+      document.getElementById("fileInfoBox").style.display = "none";
+      let counter = 6;
+      const countdownBox = document.getElementById("countdownBox");
+      const finalBtn = document.getElementById("finalDownloadBox");
+
+      countdownBox.style.display = "block";
+      
+      const updateText = () => {
+        countdownBox.innerHTML = lang === "ar"
+          ? `<i class="fas fa-spinner fa-spin"></i> جاري تجهيز الرابط... ${counter}`
+          : `<i class="fas fa-spinner fa-spin"></i> Preparing link... ${counter}`;
+      };
+      updateText();
+
+      const interval = setInterval(function () {
+        counter--;
+        updateText();
+        if (counter <= 0) {
+          clearInterval(interval);
+          countdownBox.style.display = "none";
+          finalBtn.style.display = "flex";
+        }
+      }, 1000);
+    }
+  </script>
+</body>
 </html>
