@@ -972,26 +972,28 @@
       setLanguage(userLang);
     });
 
-    let lang = 'ar';
+    let lang = localStorage.getItem("lang") || "ar";
 
-function toggleLang() {
-  lang = (lang === 'ar') ? 'en' : 'ar';
-
+function applyLanguage() {
   document.querySelectorAll('[data-lang]').forEach(el => {
-    el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+    el.style.display = (el.dataset.lang === lang) ? '' : 'none';
   });
-
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.documentElement.lang = lang;
-
-  // تغيير النص داخل الزر
-  document.getElementById("langLabel").innerText = lang === 'ar' ? 'AR' : 'EN';
-}
 
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
 
   document.getElementById("langLabel").innerText = (lang === 'ar') ? 'AR' : 'EN';
+
+  localStorage.setItem("lang", lang);
+}
+
+function toggleLang() {
+  lang = (lang === 'ar') ? 'en' : 'ar';
+  applyLanguage();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  applyLanguage();
 });
 
     function startCountdown() {
