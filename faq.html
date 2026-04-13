@@ -337,6 +337,37 @@
             font-size: 13px;
             color: #777;
         }
+
+        /* زر اللغة الجديد */
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.btn-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.3s;
+  backdrop-filter: blur(6px);
+}
+
+.btn-control:hover {
+  background: rgba(255,255,255,0.35);
+  transform: scale(1.05);
+}
+
+#langLabel {
+  font-size: 14px;
+  font-weight: 700;
+            }
         
         .disclaimer {
             font-size: 12px;
@@ -381,10 +412,12 @@
             <span data-lang="ar">انستقرام MT الذهبي</span>
             <span data-lang="en">MTInstagram</span>
         </a>
-        <div class="lang-switcher">
-            <button class="lang-btn" onclick="setLanguage('ar')">🇸🇦 عربي</button>
-            <button class="lang-btn" onclick="setLanguage('en')">🇺🇸 English</button>
-        </div>
+        <div class="controls">
+    <button class="btn-control" onclick="toggleLang()">
+      <span id="langLabel">EN</span>
+      <i class="fas fa-globe"></i>
+    </button>
+  </div>
     </div>
     
     <header class="header">
@@ -563,59 +596,87 @@
     </footer>
     
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
-            setLanguage(userLang);
-            
-            const faqQuestions = document.querySelectorAll('.faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    const arrowIcon = question.querySelector('i');
-                    
-                    faqQuestions.forEach(otherQuestion => {
-                        if (otherQuestion !== question && otherQuestion.classList.contains('active')) {
-                            otherQuestion.classList.remove('active');
-                            otherQuestion.nextElementSibling.style.display = 'none';
-                            otherQuestion.nextElementSibling.style.maxHeight = null;
-                            otherQuestion.querySelector('i').style.transform = 'rotate(0deg)';
-                        }
-                    });
-                    
-                    question.classList.toggle('active');
-                    if (answer.style.display === 'block') {
-                        answer.style.display = 'none';
-                        arrowIcon.style.transform = 'rotate(0deg)';
-                    } else {
-                        answer.style.display = 'block';
-                        answer.style.maxHeight = answer.scrollHeight + "px";
-                        arrowIcon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
-        });
+let lang = 'ar';
 
-        function setLanguage(selectedLang) {
-            document.documentElement.lang = selectedLang;
-            document.documentElement.dir = selectedLang === 'ar' ? 'rtl' : 'ltr';
+document.addEventListener("DOMContentLoaded", () => {
+    // إعداد اللغة التلقائي
+    const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
+    setLanguage(userLang);
+    
+    // كود الأسئلة الشائعة (FAQ) - يعمل كما هو
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const arrowIcon = question.querySelector('i');
             
-            document.querySelectorAll('[data-lang]').forEach(el => {
-                el.style.display = 'none';
+            faqQuestions.forEach(otherQuestion => {
+                if (otherQuestion !== question && otherQuestion.classList.contains('active')) {
+                    otherQuestion.classList.remove('active');
+                    otherQuestion.nextElementSibling.style.display = 'none';
+                    otherQuestion.nextElementSibling.style.maxHeight = null;
+                    otherQuestion.querySelector('i').style.transform = 'rotate(0deg)';
+                }
             });
             
-            document.querySelectorAll(`[data-lang="${selectedLang}"]`).forEach(el => {
-                el.style.display = 'block';
-            });
-            
-            if (selectedLang === 'ar') {
-                document.querySelectorAll('.show-ar').forEach(el => el.style.display = 'block');
-                document.querySelectorAll('.show-en').forEach(el => el.style.display = 'none');
+            question.classList.toggle('active');
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                arrowIcon.style.transform = 'rotate(0deg)';
             } else {
-                document.querySelectorAll('.show-ar').forEach(el => el.style.display = 'none');
-                document.querySelectorAll('.show-en').forEach(el => el.style.display = 'block');
+                answer.style.display = 'block';
+                answer.style.maxHeight = answer.scrollHeight + "px";
+                arrowIcon.style.transform = 'rotate(180deg)';
             }
-        }
-    </script>
+        });
+    });
+});
+
+function setLanguage(selectedLang) {
+    lang = selectedLang;
+    document.documentElement.lang = selectedLang;
+    document.documentElement.dir = selectedLang === 'ar' ? 'rtl' : 'ltr';
+    
+    // إخفاء جميع العناصر
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = 'none';
+    });
+    
+    // إظهار عناصر اللغة الحالية
+    document.querySelectorAll(`[data-lang="${selectedLang}"]`).forEach(el => {
+        el.style.display = 'block';
+    });
+    
+    // دعم فئات show-ar و show-en
+    if (selectedLang === 'ar') {
+        document.querySelectorAll('.show-ar').forEach(el => el.style.display = 'block');
+        document.querySelectorAll('.show-en').forEach(el => el.style.display = 'none');
+    } else {
+        document.querySelectorAll('.show-ar').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.show-en').forEach(el => el.style.display = 'block');
+    }
+    
+    // تحديث نص الزر الجديد
+    updateLangLabel();
+}
+
+function toggleLang() {
+    // دالة الزر الجديد - تبديل اللغة
+    if (lang === 'ar') {
+        setLanguage('en');
+    } else {
+        setLanguage('ar');
+    }
+}
+
+function updateLangLabel() {
+    // تحديث نص الزر حسب اللغة الحالية
+    const langLabel = document.getElementById('langLabel');
+    if (langLabel) {
+        langLabel.textContent = lang === 'ar' ? 'EN' : 'ع';
+    }
+}
+       </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74c9e6eeff73ab',t:'MTc2NzI5OTU3NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"1a07d8188c6642828ae02e02ca9c6cae","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
