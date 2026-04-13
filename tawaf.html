@@ -975,29 +975,18 @@
     let lang = 'ar';
 
 function toggleLang() {
-  // تبديل اللغة
   lang = (lang === 'ar') ? 'en' : 'ar';
 
-  // إظهار وإخفاء العناصر حسب اللغة
   document.querySelectorAll('[data-lang]').forEach(el => {
     el.style.display = el.dataset.lang === lang ? 'block' : 'none';
   });
 
-  // تغيير اتجاه الصفحة
-  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
 
-  // تغيير نص زر اللغة
-  document.getElementById("langLabel").innerText = (lang === 'ar') ? 'AR' : 'EN';
+  // تغيير النص داخل الزر
+  document.getElementById("langLabel").innerText = lang === 'ar' ? 'AR' : 'EN';
 }
-
-// تشغيل اللغة الافتراضية عند فتح الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-  lang = navigator.language.startsWith("ar") ? "ar" : "en";
-
-  document.querySelectorAll('[data-lang]').forEach(el => {
-    el.style.display = el.dataset.lang === lang ? 'block' : 'none';
-  });
 
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
   document.documentElement.lang = lang;
