@@ -390,16 +390,6 @@
                 grid-template-columns: 1fr 1fr;
             }
         }
-        
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: white;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
 
         /* زر اللغة الجديد */
 .controls {
@@ -431,6 +421,16 @@
   font-size: 14px;
   font-weight: 700;
 }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
         
         .footer-desc {
             font-size: 15px;
@@ -608,33 +608,46 @@
     
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
-        // تهيئة EmailJS بمفاتيحك
-        emailjs.init("xQotXC1RlBg75ntAJ");
+let lang = 'ar';
 
-        // دالة اللغة
-        document.addEventListener("DOMContentLoaded", () => {
-            const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
-            setLanguage(userLang);
-        });
+// تهيئة EmailJS
+emailjs.init("xQotXC1RlBg75ntAJ");
 
-        function setLanguage(selectedLang) {
-            document.documentElement.lang = selectedLang;
-            document.documentElement.dir = selectedLang === 'ar' ? 'rtl' : 'ltr';
-            
-            document.querySelectorAll('[data-lang]').forEach(el => {
-                el.style.display = 'none';
-            });
-            
-            document.querySelectorAll(`[data-lang="${selectedLang}"]`).forEach(el => {
-                el.style.display = 'block';
-            });
-        }
-// تحديث نص الزر الجديد
+document.addEventListener("DOMContentLoaded", () => {
+    // إعداد اللغة التلقائي
+    const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
+    setLanguage(userLang);
+});
+
+// دالة اللغة المحدثة
+function setLanguage(selectedLang) {
+    lang = selectedLang;
+    document.documentElement.lang = selectedLang;
+    document.documentElement.dir = selectedLang === 'ar' ? 'rtl' : 'ltr';
+    
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = 'none';
+    });
+    
+    document.querySelectorAll(`[data-lang="${selectedLang}"]`).forEach(el => {
+        el.style.display = 'block';
+    });
+    
+    // دعم فئات show-ar و show-en
+    if (selectedLang === 'ar') {
+        document.querySelectorAll('.show-ar').forEach(el => el.style.display = 'block');
+        document.querySelectorAll('.show-en').forEach(el => el.style.display = 'none');
+    } else {
+        document.querySelectorAll('.show-ar').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.show-en').forEach(el => el.style.display = 'block');
+    }
+    
+    // تحديث نص الزر الجديد
     updateLangLabel();
 }
 
+// دالة الزر الجديد
 function toggleLang() {
-    // دالة الزر الجديد - تبديل اللغة
     if (lang === 'ar') {
         setLanguage('en');
     } else {
@@ -642,53 +655,56 @@ function toggleLang() {
     }
 }
 
+// تحديث نص الزر
 function updateLangLabel() {
-    // تحديث نص الزر حسب اللغة الحالية
     const langLabel = document.getElementById('langLabel');
     if (langLabel) {
         langLabel.textContent = lang === 'ar' ? 'EN' : 'ع';
     }
 }
+
+// دالة عرض الإشعار Toast
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle toast-icon' : 'fa-exclamation-circle toast-icon'}"></i>${message}`;
+    toast.className = `toast ${type}`;
+    
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 4000);
+}
+
+// معالج النموذج EmailJS
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // دالة عرض الإشعار Toast
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle toast-icon' : 'fa-exclamation-circle toast-icon'}"></i>${message}`;
-            toast.className = `toast ${type}`;
-            
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // حالة التحميل
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span data-lang="ar">جاري الإرسال...</span><span data-lang="en">Sending...</span>';
 
-        // معالج النموذج EmailJS
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            
-            // حالة التحميل
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span data-lang="ar">جاري الإرسال...</span><span data-lang="en">Sending...</span>';
-
-            // إرسال الرسالة
-            emailjs.sendForm('service_90r3ot8', 'template_2tumo7c', this)
-                .then(function() {
-                    showToast('✅ تم إرسال رسالتك بنجاح! شكراً لك 🙏', 'success');
-                    document.getElementById('contactForm').reset();
-                }, function(error) {
-                    showToast('❌ خطأ في الإرسال. حاول مرة أخرى.', 'error');
-                    console.error('EmailJS Error:', error);
-                })
-                .finally(() => {
-                    submitBtn.disabled = false;
-                    const lang = document.documentElement.lang;
-                    submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i>
-                        <span data-lang="ar">إرسال الرسالة</span>
-                        <span data-lang="en">Send Message</span>`;
-                });
-        });
+        // إرسال الرسالة
+        emailjs.sendForm('service_90r3ot8', 'template_2tumo7c', this)
+            .then(function() {
+                showToast('✅ تم إرسال رسالتك بنجاح! شكراً لك 🙏', 'success');
+                document.getElementById('contactForm').reset();
+            }, function(error) {
+                showToast('❌ خطأ في الإرسال. حاول مرة أخرى.', 'error');
+                console.error('EmailJS Error:', error);
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                const currentLang = document.documentElement.lang;
+                submitBtn.innerHTML = `<i class="fas fa-paper-plane"></i>
+                    <span data-lang="ar">إرسال الرسالة</span>
+                    <span data-lang="en">Send Message</span>`;
+                setLanguage(currentLang); // إعادة تحديث النصوص
+            });
+    });
+});
     </script>
 </body>
-</html>
+                    </html>
