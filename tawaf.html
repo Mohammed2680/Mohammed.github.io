@@ -39,6 +39,8 @@
       --bg-light: #f9f9f9;
       --shadow: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-hover: 0 8px 20px rgba(0,0,0,0.12);
+      --transition: all 0.3s ease;
+    }
     
     * {
       margin: 0;
@@ -47,46 +49,17 @@
     }
     
     body {
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 500;
-  line-height: 1.7;
-  color: var(--text-main);
-  background: var(--bg-gradient);
-  min-height: 100vh;
-  position: relative;
-}
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--text-dark);
+      background: linear-gradient(135deg, #fffaf0 0%, #fff5e6 100%);
+      min-height: 100vh;
+      position: relative;
+    }
     
     [data-lang] { display: none; }
-   
-    .controls {
-  display: flex;
-  gap: 10px;
-  direction: ltr; /* مهم عشان ترتيب الأزرار */
-}
-
-.btn-control {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.btn-control i {
-  font-size: 14px;
-}
-
-.btn-control:hover {
-  background: rgba(255,255,255,0.3);
-}
-      
+    
     /* شاشة التحميل */
     #loader {
       position: fixed;
@@ -955,47 +928,24 @@
   </footer>
 
   <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  // اللغة
-  initLang();
-
-  // استرجاع الوضع الليلي
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }
-
-  // اللودر
-  let progress = 0;
-  const progressBar = document.getElementById('loaderBar');
-  const loader = document.getElementById('loader');
-
-  const progressInterval = setInterval(() => {
-    progress += Math.random() * 8;
-
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(progressInterval);
-
-      progressBar.style.width = '100%';
-
-      setTimeout(() => {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-          loader.style.display = 'none';
-        }, 500);
-      }, 300);
-    } else {
-      progressBar.style.width = progress + '%';
-    }
-
-  }, 120);
-
-});
-
-
-// 🌍 اللغة
+    document.addEventListener("DOMContentLoaded", () => {
+      // محاكاة تقدم التحميل
+      let progress = 0;
+      const progressBar = document.getElementById('loaderBar');
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        progressBar.style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+          clearInterval(progressInterval);
+          document.getElementById('loader').style.opacity = '0';
+          setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+          }, 500);
+        }
+      }, 100);
+      
+      // 🌍 اللغة
 let lang = 'ar';
 
 function initLang() {
@@ -1024,44 +974,28 @@ function toggleLang() {
   const newLang = lang === 'ar' ? 'en' : 'ar';
   setLanguage(newLang);
 }
+        ? `<i class="fas fa-spinner fa-spin"></i> جاري التحضير للتنزيل... ${counter}`
+        : `<i class="fas fa-spinner fa-spin"></i> Preparing download... ${counter}`;
 
+      var interval = setInterval(function () {
+        counter--;
+        countdownBox.innerHTML = lang === "ar"
+          ? `<i class="fas fa-spinner fa-spin"></i> جاري التحضير للتنزيل... ${counter}`
+          : `<i class="fas fa-spinner fa-spin"></i> Preparing download... ${counter}`;
 
-// ⏳ العد التنازلي
-function startCountdown() {
-  document.getElementById("fileInfoBox").style.display = "none";
-
-  let counter = 6;
-  const countdownBox = document.getElementById("countdownBox");
-  const finalBtn = document.getElementById("finalDownloadBox");
-
-  countdownBox.style.display = "block";
-
-  const updateText = () => {
-    countdownBox.innerHTML = lang === "ar"
-      ? `⏳ جاري التحضير... ${counter}`
-      : `⏳ Preparing... ${counter}`;
-  };
-
-  updateText();
-
-  const interval = setInterval(() => {
-    counter--;
-    updateText();
-
-    if (counter <= 0) {
-      clearInterval(interval);
-
-      countdownBox.style.display = "none";
-      finalBtn.style.display = "block";
-
-      setTimeout(() => {
-        finalBtn.scrollIntoView({ behavior: 'smooth' });
-      }, 300);
+        if (counter === 0) {
+          clearInterval(interval);
+          countdownBox.style.display = "none";
+          finalBtn.style.display = "block";
+          
+          // تحريك الصفحة لأسفل لعرض الأزرار
+          setTimeout(() => {
+            finalBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+      }, 1000);
     }
-
-  }, 1000);
-}
-</script>
+  </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74ca2bf86b73ab',t:'MTc2NzI5OTU4NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"1a07d8188c6642828ae02e02ca9c6cae","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
