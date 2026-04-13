@@ -731,7 +731,8 @@
       <span data-lang="ar">انستقرام MT الذهبي</span>
       <span data-lang="en">MTInsta</span>
     </a>
-    
+  </div>
+  
     <div class="controls">
   <button class="btn-control" onclick="toggleLang()">
     <span id="langLabel">EN</span>
@@ -969,7 +970,7 @@
       
       // تعيين اللغة التلقائي
       const userLang = navigator.language.startsWith("ar") ? "ar" : "en";
-      setLanguage(userLang);
+      applyLanguage();
     });
 
     let lang = localStorage.getItem("lang") || "ar";
