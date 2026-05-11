@@ -96,25 +96,12 @@
       backdrop-filter: blur(18px);
     }
 
-.loader-logo-wrap {
-  width: 88px;
-  height: 88px;
-  margin: 0 auto 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 24px;
-  background: #fff;
-  border: 2px solid rgba(253,184,39,.45);
-  box-shadow: 0 14px 34px rgba(253,184,39,.35);
-  animation: floatLogo 1.4s ease-in-out infinite;
-}
-
 .loader-logo {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  border-radius: 16px;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+  border-radius: 20px;
+  animation: floatLogo 1.4s ease-in-out infinite;
 }
 
     .loader-text {
@@ -692,33 +679,18 @@
     }
   </style></head>
 <body>
-  <div id="loader" aria-label="Loading">
+<div id="loader" aria-label="Loading">
   <div class="loader-content">
-
-    <div class="loader-logo-wrap">
-      <img
-        src="https://instagold.download/favicon.ico"
-        onerror="this.src='app_icon.png'"
-        alt="انستقرام MT الذهبي"
-        class="loader-logo"
-      />
-    </div>
-
-    <div class="loader-text" data-lang="ar">
-      جاري تحميل الصفحة...
-    </div>
-
-    <div class="loader-text" data-lang="en">
-      Loading page...
-    </div>
-
+    <img src="https://instagold.download/favicon.ico" alt="انستقرام MT الذهبي" class="loader-logo">
+    <div class="loader-text" data-lang="ar">جاري تحميل الصفحة...</div>
+    <div class="loader-text" data-lang="en">Loading page...</div>
     <div class="loader-progress">
       <div class="loader-progress-bar" id="loaderBar"></div>
     </div>
-
   </div>
 </div>
-  </div>  <div class="top-bar">
+
+<div class="top-bar">
     <a href="#" class="logo" aria-label="MTInstagram">
       <i class="fab fa-instagram logo-icon"></i>
       <span data-lang="ar">انستقرام أم تي الذهبي</span>
